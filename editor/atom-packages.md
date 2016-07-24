@@ -4,7 +4,7 @@ Atom에 기능을 더해줄 유용한 패키지들
 
 ## Git Plus
 
-`Add All Commit Push` 한 번에!
+Add All Commit Push 한 번에!
 
 ## Git Status
 

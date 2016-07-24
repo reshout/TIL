@@ -5,6 +5,7 @@ https://www.udacity.com/course/android-performance--ud825
 ## Lesson 1: Render
 
 ### Overdraw를 줄이자
+
 - 불필요하게 화면에 보이지 않는 영역을 중복해서 그리는 일이 없도록
 - 테마에 의해 그려지는 배경
 - 중복하여 그려지는 배경색
