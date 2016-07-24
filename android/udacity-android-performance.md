@@ -9,7 +9,7 @@ https://www.udacity.com/course/android-performance--ud825
   - 테마에 의해 그려지는 배경
   - 중복하여 그려지는 배경색
   - 불필요하게 두 번 그려지는 영역
-    - Custom View를 작성하는 경우 [clipRect()](https://developer.android.com/reference/android/graphics/Canvas.html#clipRect(float, float, float, float, android.graphics.Region.Op) 메서드를 활용해 화면에 그려질 필요가 있는 영역을 표시
+    - Custom View를 작성하는 경우 [clipRect()](https://goo.gl/eSebwI) 메서드를 활용해 화면에 그려질 필요가 있는 영역을 표시
   - Settings > Developer options > Debug GPU overdraw
 - 중첩 Layout을 피하자
   - 그려질 내용이 바뀔 때마다 DisplayList를 다시 생성하고 실행해 화면에 그려야 한다.
