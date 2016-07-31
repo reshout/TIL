@@ -50,6 +50,17 @@ https://www.udacity.com/course/android-performance--ud825
 
 ### Container Performance
 
+- 프로그래밍 언어가 제공하는 컨테이너에서 성능 문제가 발생하는 경우가 많음
+- 컨테이너를 사용하는 방식에 따라 성능이 다름
+- 가장 효율적인 컨테이너를 사용하고 있는가?
+
+#### Systrace
+- What it's good for:
+  - **Evaluating container performance**
+  - Finding performance bottlenecks in the execution of your code
+- [Analyzing UI Performance with Systrace](https://developer.android.com/studio/profile/systrace.html)
+- [Systrace Walkthrough](https://developer.android.com/studio/profile/systrace-walkthru.html)
+
 ## Lesson 2B: Memory
 
 ## Lesson 3: Battery
