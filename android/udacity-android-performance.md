@@ -47,6 +47,7 @@ https://www.udacity.com/course/android-performance--ud825
 - UI callback이 16ms안에 return하지 못하면 렌더링 프레임을 놓쳐 렉 발생
 - UI thread의 렌더링 작업이 5초 이상 이상 멈추면 ANR 발생
 - **그림을 그리는데 필수적이지 않은 작업은 독립적인 쓰레드로 옮기기**
+  - [AsyncTask](https://developer.android.com/reference/android/os/AsyncTask.html)
 
 ### Container Performance
 
