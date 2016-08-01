@@ -10,6 +10,7 @@ https://github.com/googlesamples/android-architecture
   - MVP + Clean Architecture
   - MVP + Dagger2
   - MVP + ContentProviders
+- [Samples at a glance](https://github.com/googlesamples/android-architecture/wiki/Samples-at-a-glance)
 
 ## MVP
 
