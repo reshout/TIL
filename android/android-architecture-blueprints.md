@@ -14,6 +14,23 @@ https://github.com/googlesamples/android-architecture
 
 ## MVP
 
+https://github.com/googlesamples/android-architecture/tree/todo-mvp/
+
+![](https://github.com/googlesamples/android-architecture/wiki/images/mvp.png)
+
+- Model-View-Presenter pattern with no architectural frameworks
+- 안드로이드의 Fragment를 MVP의 View로 활용
+- App은 4개의 feature(Tasks, TaskDetail, AddEditTask, Statistics)로 구성
+- 각 feature는 4개의 module로 구성
+  - Contract: view와 presenter의 connection 정의
+  - Activity: views, presenters 생성
+  - Fragment: view interface 구현 (no business logic)
+  - Presenter: presenter interface 구현 (business logic)
+- Presenter의 생성자에 Fragment 인스턴스 전달. Presenter의 생성자에서 `View.setPresenter(this)` 호출
+- Fragment.onResume에서 `Presenter.start()` 호출
+- Fragment는 이벤트 발생하면 Presenter의 메서드 호출. Presenter의 메서드는 business logic 수행 후 Fragment 메서드 호출.
+- 다른 화면으로 이동하는 경우 Fragment에서 `startActivty()` 호출
+
 ## MVP + Loaders
 
 ## MVP + DataBinding
