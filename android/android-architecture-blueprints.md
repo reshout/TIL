@@ -26,12 +26,81 @@ https://github.com/googlesamples/android-architecture/tree/todo-mvp/
   - Activity: views, presenters 생성
   - Fragment: view interface 구현 (no business logic)
   - Presenter: presenter interface 구현 (business logic)
-- Presenter의 생성자에 Fragment 인스턴스 전달. Presenter의 생성자에서 `View.setPresenter(this)` 호출
-- Fragment.onResume에서 `Presenter.start()` 호출
-- Fragment는 이벤트 발생하면 Presenter의 메서드 호출. Presenter의 메서드는 business logic 수행 후 Fragment 메서드 호출.
-- 다른 화면으로 이동하는 경우 Fragment에서 `startActivty()` 호출
+
+### Code
+
+Activity에서 Presenter의 생성자에 Fragment 인스턴스 전달.
+
+```java
+mTasksPresenter = new TasksPresenter(
+    Injection.provideTasksRepository(getApplicationContext()), tasksFragment);
+```
+
+Presenter의 생성자에서 View에 Presenter 인스턴스 전달
+
+```java
+public TasksPresenter(@NonNull TasksRepository tasksRepository, @NonNull TasksContract.View tasksView) {
+    ...
+    mTasksView.setPresenter(this);
+}
+```
+
+Fragment에서 Presenter의 `start()` 호출
+
+```java
+@Override
+public void onResume() {
+    super.onResume();
+    mPresenter.start();
+}
+```
+
+Fragment는 이벤트 발생하면 Presenter의 메서드 호출
+
+```java
+fab.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        mPresenter.addNewTask();
+    }
+});
+```
+
+Fragment에 의해 호출된 Presenter의 메서드는 business logic 수행 후 Fragment 메서드 호출
+
+```java
+@Override
+public void completeTask(@NonNull Task completedTask) {
+    checkNotNull(completedTask, "completedTask cannot be null!");
+    mTasksRepository.completeTask(completedTask);
+    mTasksView.showTaskMarkedComplete();
+    loadTasks(false, false);
+}
+```
+
+다른 화면으로 이동하는 경우 Fragment에서 `startActivty()` 호출
+
+```java
+@Override
+public void showAddTask() {
+    Intent intent = new Intent(getContext(), AddEditTaskActivity.class);
+    startActivityForResult(intent, AddEditTaskActivity.REQUEST_ADD_TASK);
+}
+```
 
 ## MVP + Loaders
+
+https://github.com/googlesamples/android-architecture/tree/todo-mvp-loaders/
+
+![](https://github.com/googlesamples/android-architecture/wiki/images/mvp-loaders.png)
+
+- Task Repository에서 데이터를 가져올 때, [Loader](https://developer.android.com/guide/components/loaders.html)를 사용
+- Loader의 장점
+  - 데이터의 비동기식 로딩을 제공합니다.
+  - **데이터의 출처를 모니터링하여 그 콘텐츠가 변경되면 새 결과를 전달합니다.**
+  - 구성 변경 후에 재생성된 경우, 마지막 로더의 커서로 자동으로 다시 연결됩니다. 따라서 데이터를 다시 쿼리하지 않아도 됩니다.
+- Presenter 생성자에 `Loader`, `LoaderManager`, `TaskRepository`, `Fragment` 인스턴스 전달
+-
 
 ## MVP + DataBinding
 
