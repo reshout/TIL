@@ -64,4 +64,38 @@ https://www.udacity.com/course/android-performance--ud825
 
 ## Lesson 2B: Memory
 
+### Memory, GC, and Performance
+
+- 메모리 누수: 사용하고 반납되지 않은 메모리 조각
+- 안드로이드에선 GC가 더 이상 필요하지 않은 메모리를 시스템으로 반납
+- GC를 언제 어떻게 수행할지는 어려운 문제
+- GC 수행 방식은 안드로이드 런타임 버전에 따라 다름
+  - Dalvik의 GC 이벤트는 stop-the-world
+- 하나의 긴 GC, 연속적인 GC로 인해 프레임 처리 속도가 16ms를 넘어갈 수 있음
+- Java에서도 GC에 의해 회수되지 않는 메모리 누수 발생할 수 있음
+- 코드를 보고 메모리 누수, GC를 유발하는 위치를 찾기 어렵지만, 안드로이드가 제공하는 강력한 Tool을 활용할 수 있음
+
+### Memory Leak
+
+![](images/memory-leak.png)
+
+- 앱에서 더 이상 사용하지 않는 메모리를 GC가 가려내지 못하는 상황
+- 메모리 누수가 누적될 수록 스페이스 내 공간 부족으로 GC가 더 자주 실행
+- 누수 발생하는 경우
+  - 사용하지 않는 객채에 대한 순회적인 참조
+  - Class loader 객체에 대한 핸들러 생성 후 해제하지 않음
+
+### Tool: Memory Monitor
+
+![](images/android-tool-memory-monitor.png)
+
+- 앱에 할당된 메모리 중 사용량을 실시간 그래프로 파악할 수 있음
+- 뾰족한 부분이 GC 이벤트
+
+### Tool: Heap Viewer
+
+![](images/android-tool-heap-viewer.png)
+
+- 특정 시점에 프로세스가 사용하는 메모리 양 확인 가능
+
 ## Lesson 3: Battery
