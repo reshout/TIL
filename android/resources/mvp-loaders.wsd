@@ -1,6 +1,6 @@
 participant :TasksPresenter as tp
 participant :TasksLoader as tl
-participant LoadManager as lm
+participant LoaderManager as lm
 
 tp->*tl: create
 tp->lm: initLoader(1, null, this)
