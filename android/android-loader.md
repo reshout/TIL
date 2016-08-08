@@ -17,17 +17,21 @@
 
 - 데이터베이스 또는 네트워크에서 데이터를 비동기로 가져오는 과정을 제대로 구현하기 어렵기 때문에 구글에서 프레임워크 제공
 - 비동기로 데이터를 가져오는 작업을 위한 쓰레드 관리, 결과는 Main Thread로 전달
-- 데이터 변경사항을 모니터링하여 변경된 데이터 전달 및 로딩 중 취소 operation 지원
-- Activity, Fragment의 lifecycle에 따라 데이터 동기화
+- 로딩 중 취소 등 비동기 로딩에 필요한 연산 제공
+- Activity, Fragment의 lifecycle에 맞춰 데이터 동기화 작업 수행
 
-## Basic Flow
+## API Overview
 
 ![](images/mvp-loaders.png)
 
 ## API Details
 
--  
-
+- 액티비티 또는 프래그먼트당 LoaderManager는 하나
+- Loader, AsyncTaskLoader, CursorLoader 중 하나를 구현하여 LoaderManager를 통해 활용
+- LoaderManager.initLoader(id, args, callback)를 통해 Loader 요청
+  - 해당 id의 Loader가 이미 생성되어 있다면 다시 생성하지 않음
+  - Loader를 처음 생성해야 하는 경우 LoaderCallbacks.onCreateLoader(id, args)가 호출되어 여기서 로더 객체를 생성해서 반환해야 함
+  - Loader에서 데이터 로딩이 끝나면 LoaderCallbacks.onLoadFinished(loader, data)가 호출되어 데이터가 UI로 전달됨
 
 ## Reference
 
