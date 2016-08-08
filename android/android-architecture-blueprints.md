@@ -19,7 +19,6 @@ https://github.com/googlesamples/android-architecture/tree/todo-mvp/
 ![](https://github.com/googlesamples/android-architecture/wiki/images/mvp.png)
 
 - Model-View-Presenter pattern with no architectural frameworks
-- 안드로이드의 Fragment를 MVP의 View로 활용
 - App은 4개의 feature(Tasks, TaskDetail, AddEditTask, Statistics)로 구성
 - 각 feature는 4개의 module로 구성
   - Contract: view와 presenter의 connection 정의
@@ -107,6 +106,8 @@ https://github.com/googlesamples/android-architecture/tree/todo-mvp-loaders/
 - 비동기로 데이터를 가져오는 과정을 안드로이드가 쓰레드 관리 포함하여 효율적으로 처리한다.
 
 ### Code
+
+![](images/mvp-loaders.png)
 
 Presenter에서 loader 초기화 요청. 마지막 인자 this는 `LoaderManager.LoaderCallbacks<List<Task>>` 인터페이스를 구현한 Presenter 자신.
 

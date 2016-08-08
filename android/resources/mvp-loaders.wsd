@@ -1,0 +1,12 @@
+participant :TasksPresenter as tp
+participant :TasksLoader as tl
+participant LoadManager as lm
+
+tp->*tl: create
+tp->lm: initLoader(1, null, this)
+lm->tp: onCreateLoader(1, null)
+tp-->lm: :TaskLoader
+lm->tl: onStartLoading()
+lm->tl: loadInBackground()
+tl-->lm: :List<Task>
+lm->tp: onLoadFinished(:TasksLoader, :List<Task>)
