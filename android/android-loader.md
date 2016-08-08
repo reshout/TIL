@@ -18,11 +18,16 @@
 - 데이터베이스 또는 네트워크에서 데이터를 비동기로 가져오는 과정을 제대로 구현하기 어렵기 때문에 구글에서 프레임워크 제공
 - 비동기로 데이터를 가져오는 작업을 위한 쓰레드 관리, 결과는 Main Thread로 전달
 - 데이터 변경사항을 모니터링하여 변경된 데이터 전달 및 로딩 중 취소 operation 지원
-- Activity, Fragment의 lifecycle에 따라 데이터 자동 동기화
+- Activity, Fragment의 lifecycle에 따라 데이터 동기화
 
 ## Basic Flow
 
 ![](images/mvp-loaders.png)
+
+## API Details
+
+-  
+
 
 ## Reference
 
