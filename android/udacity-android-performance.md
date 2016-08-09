@@ -115,7 +115,7 @@ private void init() {
 ```
 
 - 폰의 orientation이 바뀌면 기존 Activity가 destroy되고 새 Activity가 생성됨
-- 기존 Activity의 onStop()에서 listener를 release 해주지 않으면 메모리 누구 발생
+- 기존 Activity의 onStop()에서 listener를 release 해주지 않으면 메모리 누수 발생
 
 ### Understanding Memory Churn
 
