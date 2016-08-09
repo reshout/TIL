@@ -55,12 +55,32 @@ https://www.udacity.com/course/android-performance--ud825
 - 컨테이너를 사용하는 방식에 따라 성능이 다름
 - 가장 효율적인 컨테이너를 사용하고 있는가?
 
-#### Systrace
+### Tool: Traceview
+
+![](images/android-tool-traceview.png)
+
+- 2가지 프로파일링 방법 중 하나 선택
+  1. 샘플링 주기(default: 1000 microseconds)마다 프로파일링
+  1. 모든 메서드의 시작과 종료를 기록 (자원 많이 사용)
+- 상단엔 타임라인 패널
+  - 시간 흐름에 따른 쓰레드별 코드 진행
+  - 메서드마다 다른 색
+  - U 모양 막대로 메서드 시작과 끝 표현
+- 하단엔 프로파일 패널
+  - 특정 메서드가 사용한 독점, 포괄적(호출한 메서드 수행 시간 포함) CPU 시간
+  - 메서드 호출 횟수, 메서드 재귀 호출 횟수
+
+### Tool: Systrace
+
+![](https://developer.android.com/images/systrace/overview.png)
+
 - What it's good for:
   - **Evaluating container performance**
   - Finding performance bottlenecks in the execution of your code
-- [Analyzing UI Performance with Systrace](https://developer.android.com/studio/profile/systrace.html)
-- [Systrace Walkthrough](https://developer.android.com/studio/profile/systrace-walkthru.html)
+- The Systrace tool helps analyze the performance of your application by capturing and displaying execution times of your applications processes and other Android system processes.
+- References
+  - [Analyzing UI Performance with Systrace](https://developer.android.com/studio/profile/systrace.html)
+  - [Systrace Walkthrough](https://developer.android.com/studio/profile/systrace-walkthru.html)
 
 ## Lesson 2B: Memory
 
@@ -85,6 +105,25 @@ https://www.udacity.com/course/android-performance--ud825
   - 사용하지 않는 객채에 대한 순회적인 참조
   - Class loader 객체에 대한 핸들러 생성 후 해제하지 않음
 
+### Tracking Down the Leak in Code
+
+```java
+private void init() {
+    ListenerCollector collector = new ListenerCollector();
+    collector.setListener(this, mListener);
+}
+```
+
+- 폰의 orientation이 바뀌면 기존 Activity가 destroy되고 새 Activity가 생성됨
+- 기존 Activity의 onStop()에서 listener를 release 해주지 않으면 메모리 누구 발생
+
+### Understanding Memory Churn
+
+- **Memory Churn: 짧은 시간 안에 여러 개의 객체를 메모리에 할당하는 현상**
+- Examples
+  - for 루프 실행 중 임시 객체 여러 개 생성
+  - onDraw() 함수에서 여러 개의 객체 생성 (화면이 업데이트 되거나 애니메이션이 실행될 때마다 onDraw()가 호출됨)
+
 ### Tool: Memory Monitor
 
 ![](images/android-tool-memory-monitor.png)
@@ -97,5 +136,19 @@ https://www.udacity.com/course/android-performance--ud825
 ![](images/android-tool-heap-viewer.png)
 
 - 특정 시점에 프로세스가 사용하는 메모리 양 확인 가능
+
+### Tool: Allocation Tracker
+
+![](images/android-tool-allocation-tracker.png)
+
+- 메모리 할당 순서, 타입, 크기, 쓰레드 ID, 메모리 할당 위치 확인 가능
+
+### Recap (Lots of Handy Tools)
+
+- **중요한 것은 문제를 일으키는 코드를 여러 툴로 분석해 다양한 측면에서 살펴보고 문제의 본질을 이해하는 것**
+- 툴마다 자신의 장점이 있음
+  - Memory Monitor: 일정 기간 동안 메모리의 변화는 상태 확인
+  - Heap Viewer: 힙에 어떤 객체들이 있는지 확인
+  - Allocation Tracker: 메모리 할당 코드가 어디에 있는지 확인
 
 ## Lesson 3: Battery
