@@ -157,6 +157,86 @@ public List<Task> loadInBackground() {
 
 ## MVP + DataBinding
 
+https://github.com/googlesamples/android-architecture/tree/todo-databinding/
+
+![](https://github.com/googlesamples/android-architecture/wiki/images/mvp-databinding.png)
+
+- Android가 제공하는 [Data Binding Library](https://developer.android.com/topic/libraries/data-binding)를 활용
+- Layout XML 파일에 데이터, 이벤트 핸들러 바인딩을 정의
+- TODO: Testability, Code metrics, Maintainability 정리
+
+### Code
+
+build.gradle에서 Data Binding 라이브러리 사용 선언
+
+```
+android {
+    dataBinding {
+        enabled = true
+    }
+}
+```
+
+tasks_frag.xml 레이아웃 XML 파일에 데이터 바인딩에 사용할 변수 정의 및 참조
+
+```xml
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="tasks"
+            type="com.example.android.architecture.blueprints.todoapp.tasks.TasksViewModel" />
+        <variable
+            name="actionHandler"
+            type="com.example.android.architecture.blueprints.todoapp.tasks.TasksContract.Presenter" />
+    </data>
+
+    <TextView
+        `android:id="@+id/noTasksAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:background="@drawable/touch_feedback"
+        android:gravity="center"
+        android:text="@string/no_tasks_add"
+        android:onClick="@{() -> actionHandler.addNewTask()}"
+        android:visibility="@{tasks.tasksAddViewVisible ? View.VISIBLE : View.GONE}" />
+```
+
+Data binding을 사용한 tasks_frag.xml로부터 `TasksFragBinding` 클래스가 자동 생성 된다. `TasksFragment`는 `onCreateView()`에서 `TasksFragBinding.inflate()`를 호출하여 UI를 초기화 한다. 그리고 XML에서 정의한 변수에 해당하는 객체를 `TasksFragBinding`에 전달한다.
+
+```java
+@Nullable
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+    TasksFragBinding tasksFragBinding = TasksFragBinding.inflate(inflater, container, false);
+    tasksFragBinding.setTasks(mTasksViewModel);
+    tasksFragBinding.setActionHandler(mPresenter);
+```
+
+Data binding에 사용한 객체는 public으로 property를 공개하거나 또는 getProperty 메서드를 제공해야 한다. `TasksViewModel` 클래스는 아래와 같이 레이아웃에서 참조하는 property인 `tasksAddViewVisible`의 값을 반환하는 메서드를 제공한다.
+
+```java
+@Bindable
+public boolean getTasksAddViewVisible() {
+    return mPresenter.getFiltering() == ALL_TASKS;
+}
+```
+
+Property 값이 변경되어 UI가 업데이트 되어야 할 필요가 있을 때는 아래와 같이 `notifyPropertyChanged(int fieldId)`를 호출해야 한다.
+
+```java
+public void setTaskListSize(int taskListSize) {
+    mTaskListSize = taskListSize;
+    notifyPropertyChanged(BR.noTaskIconRes);
+    notifyPropertyChanged(BR.noTasksLabel);
+    notifyPropertyChanged(BR.currentFilteringLabel);
+    notifyPropertyChanged(BR.notEmpty);
+    notifyPropertyChanged(BR.tasksAddViewVisible);
+}
+```
+
 ## MVP + Clean Architecture
 
 ### References
