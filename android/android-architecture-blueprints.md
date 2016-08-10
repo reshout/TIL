@@ -159,6 +159,10 @@ public List<Task> loadInBackground() {
 
 ## MVP + Clean Architecture
 
+### References
+
+- [android10/Android-CleanArchitecture](https://github.com/android10/Android-CleanArchitecture)
+
 ## MVP + Dagger2
 
 ## MVP + ContentProviders
