@@ -68,4 +68,6 @@ Use Case가 인터페이스(Use Case Output Port)를 정의하고 Presenter가 �
 
 ## References
 
-- https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html
+- [Clean Architecture - 8th Light ](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
+- [googlesamples/android-architecture](https://github.com/googlesamples/android-architecture/tree/todo-mvp-clean)
+- [android10/Android-CleanArchitecture](https://github.com/android10/Android-CleanArchitecture)
