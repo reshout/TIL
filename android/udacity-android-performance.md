@@ -165,3 +165,23 @@ private void init() {
 - Cellular Radio의 경우 한 번 켜는데 소모되는 전력이 크기 때문에 데이터 수신이 끝나도 잠시 동안 대기
 - Power Monitor를 사용할 수 없는 경우가 많음. 전력 소모를 최적화 하는데 도움이 되는 툴을 사용하자.
   - [Battery Historian](https://github.com/google/battery-historian)
+
+### Battery Historian
+
+![](images/android-tool-battery-historian.png)
+
+1. [historian.py](https://raw.githubusercontent.com/google/battery-historian/master/scripts/historian.py) 다운로드
+1. 컴퓨터에 폰 연결
+1. `adb kill-server`
+1. `adb shell dumpsys batterystats --reset`
+1. 컴퓨터에서 폰 연결 해제
+1. 애플리케이션 사용
+1. 컴퓨터에 폰 연결
+1. `adb shell dumpsys batterystats > batterystats.txt`
+1. `python historian.py batterystats.txt > batterystats.html`
+1. 브라우저에서 [batterystats.html](resources/batterystats.html) 분석
+
+#### References
+
+- [Batterystats and Battery Historian Walkthrough](https://developer.android.com/studio/profile/battery-historian.html)
+- [Battery Historian Charts](https://developer.android.com/studio/profile/battery-historian-charts.html)
