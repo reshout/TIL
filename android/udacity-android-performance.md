@@ -152,3 +152,16 @@ private void init() {
   - Allocation Tracker: 메모리 할당 코드가 어디에 있는지 확인
 
 ## Lesson 3: Battery
+
+### Understanding Battery Drain
+
+![Power Monitor](https://www.msoon.com/images/power_monitor.jpg)
+
+- 배터리 소모량을 측정하는 유일한 방법은 안드로이드 기기에 별도의 하드웨어(Power Monitor) 연결해 안드로이드 기기의 배터리를 사용하지 않으며 모니터링 하는 것
+- 애플리케이션은 다음 API를 사용해 기기를 켜고, 전력을 소모하며 작업을 수행하며, 작업이 끝나면 기기는 다시 꺼짐
+  - WakeLock
+  - AlarmManager
+  - JobScheduler
+- Cellular Radio의 경우 한 번 켜는데 소모되는 전력이 크기 때문에 데이터 수신이 끝나도 잠시 동안 대기
+- Power Monitor를 사용할 수 없는 경우가 많음. 전력 소모를 최적화 하는데 도움이 되는 툴을 사용하자.
+  - [Battery Historian](https://github.com/google/battery-historian)
