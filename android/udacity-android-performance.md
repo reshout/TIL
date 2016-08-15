@@ -185,3 +185,47 @@ private void init() {
 
 - [Batterystats and Battery Historian Walkthrough](https://developer.android.com/studio/profile/battery-historian.html)
 - [Battery Historian Charts](https://developer.android.com/studio/profile/battery-historian-charts.html)
+
+### Battery Manager
+
+```java
+private boolean checkForPower() {
+    IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+    Intent batteryStatus = this.registerReceiver(null, filter);
+
+    int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+    boolean usbCharge = (chargePlug == BatteryManager.BATTERY_PLUGGED_USB);
+    boolean acCharge = (chargePlug == BatteryManager.BATTERY_PLUGGED_AC);
+    boolean wirelessCharge = false;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        wirelessCharge = (chargePlug == BatteryManager.BATTERY_PLUGGED_WIRELESS);
+    }
+    return (usbCharge || acCharge || wirelessCharge);
+}
+```
+
+`registerReceiver`의 첫 번째 파라미터로 `null`을 전달함으로써 현재 배터리 충전 상태를 즉시 얻어올 수 있다. 이 값을 참조하여 충전 상태에 따라 애플리케이션이 다르게 동작하도록 애플리케이션을 작성할 수 있다.
+
+### Wakelock and Battery Drain
+
+- 안드로이드는 배터리 수명을 연장하기 위해 몇몇 하드웨어를 꺼놓는다. 사용하지 않으면 먼저 화면이 어두워지고 잠시 후 꺼짐. 마지막으로 CPU도 잠듬.
+- 애플리케이션은 비활성화 상태에서도 작업을 하기 위해서 `WakeLock` API를 통해서 기기를 깨우고, 작업을 한 다음 기기를 잠들게 한다.
+- WakeLock을 잡는 건 쉽지만 언제 어떻게 해제할지 정하는 것이 어려움. 따라서 timeout 매개변수가 있는 `WakeLock.acquire(long timeout)`를 사용해야 한다. 그러나 timeout 값을 결정하는 것 역시 어렵다.
+- **반드시 정확한 시간에 실행되어야 할 작업이 아니라면 다음과 같이 전력 소모가 큰 작업을 수행하기 좋은 상황에 실행** → `JobScheduler` API를 사용하자!
+  - 충전 중
+  - 와이파이 연결 중
+  - 다른 작업에 의해 깨워져 있을 때
+
+### Network and Battery Drain
+
+![](images/android-cellular-radio.png)
+
+- 모바일 라디오 통신은 마지막 패킷을 수신한 후에도 다음 통신 가능성을 대비하여 잠시 깨어있기 때문에 배터리에 가장 안좋은 영향을 미친다.
+- 통계 정보 동기화와 같이 즉시 할 필요가 없는 일은 나중으로 미루자.
+- 전력 소모량이 적은 와이파이를 사용하거나 모바일 라디오 통신을 모아서 하는 것이 좋다.
+- 네트워크 요청을 배칭, 캐싱, 미루는 코드는 작성하기 무지 어려워 안드로이드 L에서 `JobScheduler` API 제공.
+
+### Using Job Scheduler
+
+- **스케줄링을 어떻게 해야 할지 시스템이 더 잘 알고 있다.**
+- 개발자는 어떤 작업을 시스템 스케줄러에게 맡길지만 정하자.
