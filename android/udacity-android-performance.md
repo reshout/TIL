@@ -228,4 +228,39 @@ private boolean checkForPower() {
 ### Using Job Scheduler
 
 - **스케줄링을 어떻게 해야 할지 시스템이 더 잘 알고 있다.**
-- 개발자는 어떤 작업을 시스템 스케줄러에게 맡길지만 정하자.
+- 개발자는 시스템 스케줄러에게 어떤 작업을 어떤 조건에서 수행되도록 맡길지만 고민하면 된다.
+
+```java
+ComponentName mServiceComponent;
+mServiceComponent = new ComponentName(this, MyJobService.class);
+JobScheduler scheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+for (int i=0; i<10; i++) {
+    JobInfo jobInfo = new JobInfo.Builder(i, mServiceComponent)
+            .setMinimumLatency(5000) // 5 seconds
+            .setOverrideDeadline(60000) // 60 seconds (for brevity in the sample)
+            .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY) // WiFi or data connections
+            .build();
+    scheduler.schedule(jobInfo);
+}
+```
+
+```java
+public class MyJobService extends JobService {
+  @Override
+  public boolean onStartJob(JobParameters params) {
+    ...
+    jobFinished(); // WakeLock을 해제할 수 있도록 작업이 끝나면 반드시 호출해야 한다.
+  }
+
+  @Override
+  public boolean onStopJob(JobParameters params) {
+    ...
+  }
+}
+```
+
+#### References
+
+- [Using the Android Job Scheduler](https://www.youtube.com/watch?v=QdINLG5QrJc&feature=youtu.be)
+- [JobScheduler](https://developer.android.com/reference/android/app/job/JobScheduler.html)
+- [JobInfo.Builder](https://developer.android.com/reference/android/app/job/JobInfo.Builder.html)
