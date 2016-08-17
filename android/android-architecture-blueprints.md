@@ -291,6 +291,8 @@ https://github.com/googlesamples/android-architecture/tree/todo-mvp-clean/
 
 ### Code
 
+![](images/mvp-clean.png)
+
 `UseCase<Q, P>` 추상 클래스는 입력값 설정, 실행, 결과 콜백 관련 타입, 인터페이스, 메서드를 정의한다.
 
 `UseCaseHandler`는 `UseCase`를 실행해주는 `execute(useCase, values, callback)` 메서드를 제공한다. `UseCase`를 실행할 때 생성자로 전달 받은 `UseCaseScheduler`를 이용한다.

@@ -1,0 +1,19 @@
+participant :TasksPresenter as tp
+participant :TasksView as tv
+participant :GetTasks\nextends UseCase as gt
+participant :UseCaseCallback as ucc
+participant :UiCallbackWrapper as ucw
+participant :UseCaseHandler as uch
+participant :UseCaseScheduler as ucs
+
+tp->uch: execute(:GetTasks, :RequestValues, :UseCaseCallback)
+uch->gt: setRequestValues(:RequestValues)
+uch->*ucw: UiCallbackWrapper(:UseCaseCallback, this)
+uch->gt: setUseCaseCallback(:UiCallbackWrapper)
+uch->ucs: execute(:Runnable)
+ucs->gt: run() in background thread
+gt->ucw: onSuccess(:ResponseValues)
+ucw->uch: notifyResponse(:ResponseValues, :UseCaseCallback)
+uch->ucs: notifyResponse(:ResponseValues, :UseCaseCallback)
+ucs->ucc: onSuccess(:ResponseValues) in main thread
+ucc->tv: showTasks(:List<Task>)
