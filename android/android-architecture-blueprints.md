@@ -321,6 +321,102 @@ public <V extends UseCase.ResponseValue> void notifyResponse(final V response,
 
 `UseCaseHandler`는 `UseCaseThreadPoolScheduler`를 사용하는데, `execute()`는 백그라운드 쓰레드에서, `notifyResponse()`는 메인쓰레드에서 호출하도록 구현되어 있다.
 
+```java
+public class UseCaseThreadPoolScheduler implements UseCaseScheduler {
+    private final Handler mHandler = new Handler();
+    public static final int POOL_SIZE = 2;
+    public static final int MAX_POOL_SIZE = 4;
+    public static final int TIMEOUT = 30;
+    ThreadPoolExecutor mThreadPoolExecutor;
+
+    public UseCaseThreadPoolScheduler() {
+        mThreadPoolExecutor = new ThreadPoolExecutor(POOL_SIZE, MAX_POOL_SIZE, TIMEOUT,
+                TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(POOL_SIZE));
+    }
+
+    @Override
+    public void execute(Runnable runnable) {
+        mThreadPoolExecutor.execute(runnable);
+    }
+
+    @Override
+    public <V extends UseCase.ResponseValue> void notifyResponse(final V response,
+            final UseCase.UseCaseCallback<V> useCaseCallback) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                useCaseCallback.onSuccess(response);
+            }
+        });
+    }
+
+    @Override
+    public <V extends UseCase.ResponseValue> void onError(
+            final UseCase.UseCaseCallback<V> useCaseCallback) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                useCaseCallback.onError();
+            }
+        });
+    }
+}
+```
+
+`TasksActivity`에서 `TasksPresenter`를 생성할 때 Presenter에서 사용할 모든 `UseCase` 객체들을 전달한다.
+
+```java
+mTasksPresenter = new TasksPresenter(
+        Injection.provideUseCaseHandler(),
+        tasksFragment,
+        Injection.provideGetTasks(getApplicationContext()),
+        Injection.provideCompleteTasks(getApplicationContext()),
+        Injection.provideActivateTask(getApplicationContext()),
+        Injection.provideClearCompleteTasks(getApplicationContext())
+        );
+```
+
+`Injection` 클래스에서 `UseCase` 객체를 생성할 때 Repository 객체를 생성자로 전달한다.
+
+```java
+public static GetTasks provideGetTasks(@NonNull Context context) {
+    return new GetTasks(provideTasksRepository(context), new FilterFactory());
+}
+```
+
+`TasksPresenter`는 비지니스 로직 수행이 필요한 경우 `UseCaseHandler`를 통해 생성자에서 전달받은 `UseCase` 실행을 요청한다. 콜백을 통해 결과를 받으면 View를 통해 UI를 업데이트 한다.
+
+```java
+GetTasks.RequestValues requestValue = new GetTasks.RequestValues(forceUpdate,
+        mCurrentFiltering);
+
+mUseCaseHandler.execute(mGetTasks, requestValue,
+        new UseCase.UseCaseCallback<GetTasks.ResponseValue>() {
+            @Override
+            public void onSuccess(GetTasks.ResponseValue response) {
+                List<Task> tasks = response.getTasks();
+                // The view may not be able to handle UI updates anymore
+                if (!mTasksView.isActive()) {
+                    return;
+                }
+                if (showLoadingUI) {
+                    mTasksView.setLoadingIndicator(false);
+                }
+
+                processTasks(tasks);
+            }
+
+            @Override
+            public void onError() {
+                // The view may not be able to handle UI updates anymore
+                if (!mTasksView.isActive()) {
+                    return;
+                }
+                mTasksView.showLoadingTasksError();
+            }
+        });
+```
+
 ### References
 
 - [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
