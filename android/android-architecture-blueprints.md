@@ -291,6 +291,36 @@ https://github.com/googlesamples/android-architecture/tree/todo-mvp-clean/
 
 ### Code
 
+`UseCase<Q, P>` 추상 클래스는 입력값 설정, 실행, 결과 콜백 관련 타입, 인터페이스, 메서드를 정의한다.
+
+`UseCaseHandler`는 `UseCase`를 실행해주는 `execute(useCase, values, callback)` 메서드를 제공한다. `UseCase`를 실행할 때 생성자로 전달 받은 `UseCaseScheduler`를 이용한다.
+
+```java
+public <T extends UseCase.RequestValues, R extends UseCase.ResponseValue> void execute(
+        final UseCase<T, R> useCase, T values, UseCase.UseCaseCallback<R> callback) {
+    useCase.setRequestValues(values);
+    useCase.setUseCaseCallback(new UiCallbackWrapper(callback, this));
+
+    mUseCaseScheduler.execute(new Runnable() {
+        @Override
+        public void run() {
+            useCase.run();
+        }
+    });
+}
+```
+
+콜백인스턴스를 설정할 때, `UiCallbackWrapper`로 감싸서 콜백 메서드가 호출되었을 때, `UseCaseHandler`가 제공하는 `notifyResponse()`를 호출하게 한다.
+
+```java
+public <V extends UseCase.ResponseValue> void notifyResponse(final V response,
+                                                             final UseCase.UseCaseCallback<V> useCaseCallback) {
+    mUseCaseScheduler.notifyResponse(response, useCaseCallback);
+}
+```
+
+`UseCaseHandler`는 `UseCaseThreadPoolScheduler`를 사용하는데, `execute()`는 백그라운드 쓰레드에서, `notifyResponse()`는 메인쓰레드에서 호출하도록 구현되어 있다.
+
 ### References
 
 - [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
