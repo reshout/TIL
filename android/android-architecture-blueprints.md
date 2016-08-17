@@ -98,12 +98,18 @@ https://github.com/googlesamples/android-architecture/tree/todo-mvp-loaders/
   - 데이터의 비동기식 로딩을 제공합니다.
   - **데이터의 출처를 모니터링하여 그 콘텐츠가 변경되면 새 결과를 전달합니다.**
   - 구성 변경 후에 재생성된 경우, 마지막 로더의 커서로 자동으로 다시 연결됩니다. 따라서 데이터를 다시 쿼리하지 않아도 됩니다.
-- Understandability: Loaders framework에 익숙해야 함 (not trivial)
-- Testability: Loaders framework를 사용함으로써 Android framework에 big dependency 생겨 unit testing이 더 어려움
 - Presenter는 TaskRepository에서 직접 task 데이터를 조회하는 대신 TaskLoader를 사용
 - TaskLoader는 TaskRepository에 요청하여 데이터를 가져와 client에 전달
 - Android Loader framework가 정의한 lifecycle을 따라서 초기 데이터를 가져오고 변경 사항을 반영하는 과정을 구현.
 - 비동기로 데이터를 가져오는 과정을 안드로이드가 쓰레드 관리 포함하여 효율적으로 처리한다.
+
+### Understandability
+
+Loaders framework에 익숙해야 함 (not trivial)
+
+### Testability
+
+Loaders framework를 사용함으로써 Android framework에 big dependency 생겨 unit testing이 더 어려움
 
 ### Code
 
@@ -163,7 +169,24 @@ https://github.com/googlesamples/android-architecture/tree/todo-databinding/
 
 - Android가 제공하는 [Data Binding Library](https://developer.android.com/topic/libraries/data-binding)를 활용
 - Layout XML 파일에 데이터, 이벤트 핸들러 바인딩을 정의
-- TODO: Testability, Code metrics, Maintainability 정리
+
+### Testability
+
+#### Unit Testing
+
+- Data Binding Library는 unit test된 많은 관계를 다룬다.
+- 우리가 추가할 unit test의 수는 적지만 전체적으로 coverage는 비슷하다.
+
+### Code metrics
+
+- 클래스의 수 증가
+- Wiring code가 XML로 옮겨가면서 레이아웃 XML 라인 수 증가. Java 라인 수 감수.
+
+### Maintainability
+
+- 기존 feature 범위 내에서 작은 수정 사항은 적용하기 쉬움
+- 새로운 feature를 추가하려면 Data Binding Library를 사용 경험 필요
+- Data Binding Library에 의한 component간 communication을 이해해야 함
 
 ### Code
 
@@ -239,8 +262,38 @@ public void setTaskListSize(int taskListSize) {
 
 ## MVP + Clean Architecture
 
+https://github.com/googlesamples/android-architecture/tree/todo-mvp-clean/
+
+![](https://github.com/googlesamples/android-architecture/wiki/images/mvp-clean.png)
+
+- MVP sample을 기반으로 repository와 presentation layer 사이에 domain layer를 추가하여 Clean Architecture를 구현
+- Domain layer는 모든 비지니스 로직을 구현. Use Case는 모든 가능한 operation을 표현하며 presentation layer에 의해 사용된다.
+- 비지니스 로직을 presenter에서 domain layer로 가져와 비슷한 일을 하는 여러 presenter에 중복된 코드를 제거
+- Use Case는 앱이 필요로 하는 모든 operation을 정의하고 있으며 이름이 목적을 명확히 하므로 코드의 readability가 향상
+- Use Case의 실행은 백그라운드 쓰레드에서 command pattern에 의해 이루어진다.
+- Domain layer는 완전히 Android SDK, 3rd party 라이브러리와 분리되어 있다.
+
+### Issues and Notes
+
+- Use case는 쓰레드 풀에서 실행되도록 되어 있는데, RxJava 또는 Promises를 사용하여 구현할 수도 있다.
+- View, domain layer에서 다른 model을 사용할 것을 추천한다. View model이 Android 관련 필드를 갖는 경우 2개의 model을 사용하고 상호 변환하는 mapper 클래스를 제공해야 한다.
+- 실제 앱에서 `onError` 콜백은 문제의 원인을 나타낼 수 있어야 한다.
+
+### Testability
+
+- 모든 domain 코드는 unit test를 작성할 수 있다.
+- Use case에서부터 view, repository까지 포함한 integration test로 확장할 수 있다.
+
+### Maintainability
+
+- 구조상 feature를 수정하거나 추가하기 쉽고
+- Verbose 하기 때문에 코드를 이해하기도 매우 쉽다.
+
+### Code
+
 ### References
 
+- [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [android10/Android-CleanArchitecture](https://github.com/android10/Android-CleanArchitecture)
 
 ## MVP + Dagger2
