@@ -390,6 +390,74 @@ public static GetTasks provideGetTasks(@NonNull Context context) {
 }
 ```
 
+`UseCase`를 상속하여 구현한 `GetTasks` 클래스는 내부 클래스로 `RequestValues`, `ResponseValues`를 정의하고 `executeUseCase(requestValues)`에 business logic을 구현했다.
+
+```java
+public class GetTasks extends UseCase<GetTasks.RequestValues, GetTasks.ResponseValue> {
+    private final TasksRepository mTasksRepository;
+    private final FilterFactory mFilterFactory;
+
+    public GetTasks(@NonNull TasksRepository tasksRepository, @NonNull FilterFactory filterFactory) {
+        mTasksRepository = checkNotNull(tasksRepository, "tasksRepository cannot be null!");
+        mFilterFactory = checkNotNull(filterFactory, "filterFactory cannot be null!");
+    }
+
+    @Override
+    protected void executeUseCase(final RequestValues values) {
+        if (values.isForceUpdate()) {
+            mTasksRepository.refreshTasks();
+        }
+
+        mTasksRepository.getTasks(new TasksDataSource.LoadTasksCallback() {
+            @Override
+            public void onTasksLoaded(List<Task> tasks) {
+                TasksFilterType currentFiltering = values.getCurrentFiltering();
+                TaskFilter taskFilter = mFilterFactory.create(currentFiltering);
+
+                List<Task> tasksFiltered = taskFilter.filter(tasks);
+                ResponseValue responseValue = new ResponseValue(tasksFiltered);
+                getUseCaseCallback().onSuccess(responseValue);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                getUseCaseCallback().onError();
+            }
+        });
+    }
+
+    public static final class RequestValues implements UseCase.RequestValues {
+        private final TasksFilterType mCurrentFiltering;
+        private final boolean mForceUpdate;
+
+        public RequestValues(boolean forceUpdate, @NonNull TasksFilterType currentFiltering) {
+            mForceUpdate = forceUpdate;
+            mCurrentFiltering = checkNotNull(currentFiltering, "currentFiltering cannot be null!");
+        }
+
+        public boolean isForceUpdate() {
+            return mForceUpdate;
+        }
+
+        public TasksFilterType getCurrentFiltering() {
+            return mCurrentFiltering;
+        }
+    }
+
+    public static final class ResponseValue implements UseCase.ResponseValue {
+        private final List<Task> mTasks;
+
+        public ResponseValue(@NonNull List<Task> tasks) {
+            mTasks = checkNotNull(tasks, "tasks cannot be null!");
+        }
+
+        public List<Task> getTasks() {
+            return mTasks;
+        }
+    }
+}
+```
+
 `TasksPresenter`는 비지니스 로직 수행이 필요한 경우 `UseCaseHandler`를 통해 생성자에서 전달받은 `UseCase` 실행을 요청한다. 콜백을 통해 결과를 받으면 View를 통해 UI를 업데이트 한다.
 
 ```java
