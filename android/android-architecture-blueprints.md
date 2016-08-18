@@ -268,8 +268,8 @@ https://github.com/googlesamples/android-architecture/tree/todo-mvp-clean/
 
 - MVP sample을 기반으로 repository와 presentation layer 사이에 domain layer를 추가하여 Clean Architecture를 구현
 - Domain layer는 모든 비지니스 로직을 구현. Use Case는 모든 가능한 operation을 표현하며 presentation layer에 의해 사용된다.
-- 비지니스 로직을 presenter에서 domain layer로 가져와 비슷한 일을 하는 여러 presenter에 중복된 코드를 제거
-- Use Case는 앱이 필요로 하는 모든 operation을 정의하고 있으며 이름이 목적을 명확히 하므로 코드의 readability가 향상
+- 비지니스 로직을 presenter에서 domain layer로 가져와 여러 presenter에 중복 구현된 코드를 제거
+- Use Case는 앱이 필요로 하는 모든 operation을 정의하고 있으며 이름이 목적을 명확히 드러내므로 코드의 readability가 향상
 - Use Case의 실행은 백그라운드 쓰레드에서 command pattern에 의해 이루어진다.
 - Domain layer는 완전히 Android SDK, 3rd party 라이브러리와 분리되어 있다.
 
