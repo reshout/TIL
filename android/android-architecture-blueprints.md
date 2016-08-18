@@ -113,7 +113,7 @@ Loaders framework를 사용함으로써 Android framework에 big dependency 생�
 
 ### Code
 
-![](images/mvp-loaders.png)
+![](images/mvp-loaders-sd.png)
 
 Presenter에서 loader 초기화 요청. 마지막 인자 this는 `LoaderManager.LoaderCallbacks<List<Task>>` 인터페이스를 구현한 Presenter 자신.
 
@@ -289,9 +289,13 @@ https://github.com/googlesamples/android-architecture/tree/todo-mvp-clean/
 - 구조상 feature를 수정하거나 추가하기 쉽고
 - Verbose 하기 때문에 코드를 이해하기도 매우 쉽다.
 
+### Packages & Classes
+
+![](images/mvp-clean-package.png)
+
 ### Code
 
-![](images/mvp-clean.png)
+![](images/mvp-clean-sd.png)
 
 `UseCase<Q, P>` 추상 클래스는 입력값 설정, 실행, 결과 콜백 관련 타입, 인터페이스, 메서드를 정의한다.
 
@@ -418,6 +422,13 @@ mUseCaseHandler.execute(mGetTasks, requestValue,
             }
         });
 ```
+
+### My Review
+
+- Feature 별로 package를 구성하다보니 presentation layer와 domain layer가 같은 package 아래에 있다. 좋은 방법인가?
+- Domain layer를 별도의 프로젝트로 구성하면 더 좋을 것 같다.
+- Domain layer에서 사용하는 repository interface는 domain layer package에서 정의해야 할 것 같은데 그렇지 않다.
+- Request-Response Use Case만 구현하였는데, Publish-Subscribe와 같이 다른 커뮤니케이션 타입을 지원하는 Use Case도 필요할 것 같다.
 
 ### References
 
