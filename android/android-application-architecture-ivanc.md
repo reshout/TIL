@@ -14,7 +14,13 @@ ribot team과 지난 3년 동안 안드로이드 앱을 개발하면서 사용�
 
 ![](https://cdn-images-1.medium.com/max/800/1*TTtpcT4H80THBofnCtQ_Lw.png)
 
-### The structure
+- `APIProvider`
+  - REST API 통신 메서드 제공
+  - `URLConnection` 및 `AsyncTasks` 사용
+  - 결과는 callback을 통해 Activity로 전달
+- `CacheProvider`
+  - SharedPreferences와 SQLite database에 데이터 조회/저장 메서드 제공
+  - 결과는 callback을 통해 Activity로 전달
 
 ### The problems
 
