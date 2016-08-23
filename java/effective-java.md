@@ -66,4 +66,33 @@ public final class CaseInsensitiveString implements Comparable<CaseInsensitiveSt
 - 객체 참조 필드가 `Comparable` 인터페이스를 구현하고 있지 않거나 natural order를 따르지 않는 경우,  [Comparator](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html) 인터페이스를 새로 구현하거나 이미 구현된 것을 사용
 - 정수 타입의 기본형 필드는 관계 연산자 `<`와 `>`을 사용하자.
 - 부동 소수점 필드는 관계 연산자 대신 `Double.compare`나 `Float.compare`를 사용
-- 비교할 필수 필드가 여러 개인 경우 비교 순서가 중요. 우선되는 필드부터 시작해서 차례대로 비교.
+- 비교할 필수 필드가 여러 개인 경우 비교 순서가 중요. 우선되는 필드부터 시작해서 차례대로 비교하고 모든 필드의 값이 같으면 0을 반환.
+
+```java
+public int compareTo(PhoneNumber pn) {
+  if (areaCode < pn.areaCode) return -1;
+  if (areaCode > pn.areaCode) return 1;
+
+  if (prefix < pn.prefix) return -1;
+  if (prefix > pn.prefix) return 1;
+
+  if (lineNumber < pn.lineNumber) return -1;
+  if (lineNumber > pn.lineNumber) return 1;
+
+  return 0;
+}
+```
+
+반환 값보다 부호가 중요하므로 다음과 같이 최적화할 수 있다. 그러나 해당 필드의 최저 값과 최고 값의 차이가 `Integer.MAX_VALUE`보다 작거나 같아야 한다.
+
+```java
+public int compareTo(PhoneNumber pn) {
+  int areaCodeDiff = areaCode - pn.areaCode;
+  if (areaCodeDiff != 0) return areaCodeDiff;
+
+  if prefixDiff = prefix - pn.prefix;
+  if (prefixDiff != 0) return prefixDiff;
+
+  return lineNumber - pn.lineNumber;
+}
+```
