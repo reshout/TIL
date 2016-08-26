@@ -1,4 +1,4 @@
-# Android Architecture Blueprints
+# googlesamples/android-architecture
 
 https://github.com/googlesamples/android-architecture
 
