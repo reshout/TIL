@@ -16,7 +16,7 @@ https://github.com/android10/Android-CleanArchitecture
 
 ![](https://camo.githubusercontent.com/0bf8c53baf9bf62f8c85b983d49cef4e23539188/687474703a2f2f6665726e616e646f63656a61732e636f6d2f77702d636f6e74656e742f75706c6f6164732f323031352f30372f636c65616e5f6172636869746563747572655f65766f6c7574696f6e2e706e67)
 
-## Gradle Modules
+## Gradle modules
 
 Layer 별로 별도의 Gradle 모듈로 구성되어 있다.
 
@@ -29,6 +29,19 @@ Layer 별로 별도의 Gradle 모듈로 구성되어 있다.
 - `/presentation`
   - Android Application
   - domain, data 모듈에 의존
+
+## Package organization
+
+Package를 구성하는 방식에는 2가지가 있다.
+
+- Package by Layer
+- Package by Feature
+
+Package by Feature 방식이 패키지 내에서 cohesion, modularity을 높이고, 패키지 간 coupling을 줄이기 때문에 효과적이다.
+
+![](http://fernandocejas.com/wp-content/uploads/2015/07/package_organization-795x1024.png)
+
+그러나 이 프로젝트는 처음에 Package by Layer로 구현되었고, clean architecture를 보여주는 것이 주 목적이므로 그대로 두었다.
 
 ## References
 
