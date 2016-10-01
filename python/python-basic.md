@@ -77,3 +77,17 @@ print(list(map(lambda n: n ** 3, map(fib, range(N)))))
 >>> l.pop()
 1
 ```
+
+### Tuples
+
+```python
+>>> t = tuple([1, 1, 2, 2, 3, 3]) # tuple(iterable)
+>>> t
+(1, 1, 2, 2, 3, 3)
+>>> t.count(2)
+2
+>>> t.index(1)
+0
+>>> t.index(2)
+2
+```
