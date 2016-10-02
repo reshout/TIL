@@ -78,6 +78,17 @@ print(list(map(lambda n: n ** 3, map(fib, range(N)))))
 1
 ```
 
+#### List Comprehensions
+
+```python
+>>> x = 1
+>>> y = 1
+>>> z = 1
+>>> n = 2
+>>> [[a, b, c] for a in range(x + 1) for b in range(y + 1) for c in range(z + 1) if a + b + c != n]
+[[0, 0, 0], [0, 0, 1], [0, 1, 0], [1, 0, 0], [1, 1, 1]]
+```
+
 ### Tuples
 
 ```python
