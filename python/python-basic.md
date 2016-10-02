@@ -102,3 +102,19 @@ print(list(map(lambda n: n ** 3, map(fib, range(N)))))
 >>> t.index(2)
 2
 ```
+
+### Dictionary
+
+```python
+>>> d = {} # dict()
+>>> d['key1'] = 'val1'
+>>> d
+{'key1': 'val1'}
+>>> if 'key1' in d:
+...   print(d['key1'])
+...
+val1
+>>> del d['key1']
+>>> d
+{}
+```
