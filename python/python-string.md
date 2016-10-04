@@ -1,6 +1,6 @@
 # Python String
 
-## upper, lower
+## upper, isupper()
 
 ```python
 >>> 's'.islower()
@@ -28,4 +28,18 @@ True
 'Hello Gunwoo Kim! You just delved into python.'
 >>> 'Hello {0} {1}! You just delved into python.'.format(first_name, second_name)
 'Hello Gunwoo Kim! You just delved into python.'
+```
+
+## slice
+
+```python
+>>> s = 'abcdefg'
+>>> s[3:]
+'defg'
+>>> s[:3]
+'abc'
+>>> s[-1]
+'g'
+>>> s[:-1]
+'abcdef'
 ```
