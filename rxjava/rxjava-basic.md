@@ -91,6 +91,9 @@ Observable.<Event>fromEmitter(emitter -> {
 - Official Documentation
   - [Observable](http://reactivex.io/documentation/observable.html)
   - [Subject](http://reactivex.io/documentation/subject.html)
+  - [Scheduler](http://reactivex.io/documentation/scheduler.html)
+  - [Operators](http://reactivex.io/documentation/operators.html)
+  - [Single](http://reactivex.io/documentation/single.html)
 - [ReactiveX / RxJava](https://github.com/ReactiveX/RxJava)
 - [wifi](https://github.com/ReactiveX/RxJava/wiki)
 - [Javadoc](http://reactivex.io/RxJava/javadoc/rx/Observable.html)
