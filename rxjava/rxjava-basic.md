@@ -16,13 +16,6 @@
 * [**`error( )`**](http://reactivex.io/documentation/operators/empty-never-throw.html) — create an Observable that emits nothing and then signals an error
 * [**`never( )`**](http://reactivex.io/documentation/operators/empty-never-throw.html) — create an Observable that emits nothing at all
 
-### from
-
-- `Observable<T> from(java.util.concurrent.Future<? extends T> future)`
-- `Observable<T> from(java.lang.Iterable<? extends T> iterable)`
-- `Observable<T> from(T[] array)`
-- `Observable<T> fromCallable(java.util.concurrent.Callable<? extends T> func)`
-
 ### just
 
 - `Observable<T> just(T value)`
@@ -30,7 +23,43 @@
 - ...
 - `Observable<T> just(T t1, T t2, T t3, T t4, T t5, T t6, T t7, T t8, T t9, T t10)`
 
+### from
+
+- `Observable<T> from(java.util.concurrent.Future<? extends T> future)`
+- `Observable<T> from(java.lang.Iterable<? extends T> iterable)`
+- `Observable<T> from(T[] array)`
+- `Observable<T> fromCallable(java.util.concurrent.Callable<? extends T> func)`
+
 ### fromEmitter
+
+```AsyncEmitter```를 통해 원하는 시점에 데이터를 전달할 수 있다.
+
+```java
+@Experimental
+public static <T> Observable<T> fromEmitter(Action1<AsyncEmitter<T>> emitter,
+                                         AsyncEmitter.BackpressureMode backpressure)
+```                              
+
+```java
+Observable.<Event>fromEmitter(emitter -> {
+  Callback listener = new Callback() {
+    @Override
+    public void onEvent(Event e) {
+      emitter.onNext(e);
+      if (e.isLast()) {
+        emitter.onCompleted();
+      }
+    }
+
+    @Override
+    public void onFailure(Exception e) {
+      emitter.onError(e);
+    }
+  };
+  AutoCloseable c = api.someMethod(listener);
+  emitter.setCancellation(c::close);
+}, BackpressureMode.BUFFER);
+```
 
 ## Subscribing an Observable
 
