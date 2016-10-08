@@ -70,8 +70,27 @@ Observable.<Event>fromEmitter(emitter -> {
 - `Subscription subscribe(Observer<? super T> observer)`
 - `Subscription subscribe(Subscriber<? super T> subscriber)`
 
+## Subject
+
+`Observer`와 `Observable`의 역할을 동시에 수행
+- `Observer`로서 `subscribe(Observer)`의 parameter로 사용될 수 있다.
+- `Observable`로서 `subscribe(Observer)`로 데이터를 구독할 수 있다.
+
+`Observable`로서 데이터를 `Observer`에게 전달하는 기준에 따라 4가지 종류의 `Subject`가 존재한다.
+
+![AsyncSubject](http://reactivex.io/documentation/operators/images/S.AsyncSubject.png)
+
+![BehaviorSubject](http://reactivex.io/documentation/operators/images/S.BehaviorSubject.png)
+
+![PublishSubject](http://reactivex.io/documentation/operators/images/S.PublishSubject.png)
+
+![ReplaySubject](http://reactivex.io/documentation/operators/images/S.ReplaySubject.png)
+
 ## References
 
+- Official Documentation
+  - [Observable](http://reactivex.io/documentation/observable.html)
+  - [Subject](http://reactivex.io/documentation/subject.html)
 - [ReactiveX / RxJava](https://github.com/ReactiveX/RxJava)
 - [wifi](https://github.com/ReactiveX/RxJava/wiki)
 - [Javadoc](http://reactivex.io/RxJava/javadoc/rx/Observable.html)
