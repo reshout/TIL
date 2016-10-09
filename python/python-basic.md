@@ -17,10 +17,18 @@ else:
 ### Arithmetic Operators
 
 ```python
-a = 4
-b = 3
-print(a // b) # 1
-print(a / b) # 1.3333333333333333
+>>> a = 4
+>>> b = 3
+>>> a % b
+1
+>>> a = 5
+>>> b = 3
+>>> a / b
+1.6666666666666667
+>>> a // b
+1
+>>> a % b
+2
 ```
 
 ### Loops
