@@ -82,6 +82,12 @@ print(list(map(lambda n: n ** 3, map(fib, range(N)))))
 1
 ```
 
+```python
+>>> l = [0] * 5
+>>> l
+[0, 0, 0, 0, 0]
+```
+
 #### List Comprehensions
 
 ```python
