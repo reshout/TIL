@@ -30,6 +30,11 @@ True
 'Hello Gunwoo Kim! You just delved into python.'
 ```
 
+```python
+>>> '{:.5f}'.format(1/3)
+'0.33333'
+```
+
 ## slice
 
 ```python
