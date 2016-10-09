@@ -17,10 +17,6 @@ else:
 ### Arithmetic Operators
 
 ```python
->>> a = 4
->>> b = 3
->>> a % b
-1
 >>> a = 5
 >>> b = 3
 >>> a / b
