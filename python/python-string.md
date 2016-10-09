@@ -1,5 +1,7 @@
 # Python String
 
+https://docs.python.org/3.4/library/string.html
+
 ## upper, isupper()
 
 ```python
