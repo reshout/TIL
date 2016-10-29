@@ -1,5 +1,9 @@
 # Java Basic
 
+## Primitive Data Types
+
+https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html
+
 ## Object
 
 https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
