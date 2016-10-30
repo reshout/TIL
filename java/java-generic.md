@@ -30,8 +30,10 @@ public class GenericTest {
         fruitExtendedList.add(new WaterMelon()); // compile error
 
         List<? super Melon> melonSuperList = new ArrayList<>();
+
         Fruit fruit = melonSuperList.get(0); // compile error
         Object myObject = melonSuperList.get(0);
+
         melonSuperList.add(new Object()); // compile error
         melonSuperList.add(new Fruit()); // compile error
         melonSuperList.add(new Melon());
