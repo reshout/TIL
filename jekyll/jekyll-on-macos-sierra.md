@@ -55,3 +55,32 @@ gem install sequel
 gem install mysql2
 gem install unidecode
 ```
+
+아래와 같이 import에는 성공했지만,
+
+```bash
+ruby -rubygems -e 'require "jekyll-import";
+JekyllImport::Importers::WordPress.run({
+"dbname"   => "wordpress",
+"user" => "root",
+"password" => "xxxxxxxx",
+"host" => "reshout.com",
+"socket" => "",
+"table_prefix" => "wp_",
+"site_prefix" => "",
+"clean_entities" => false,
+"comments" => false,
+"categories" => true,
+"tags" => true,
+"more_excerpt" => true,
+"more_anchor" => true,
+"extensions" => "html",
+"status" => ["publish"]
+})'
+```
+
+다음과 같은 파일 이름 때문에 관리가 어려워 보인다.
+
+```
+2014-02-05-mac-os-x-%ed%84%b0%eb%af%b8%eb%84%90%ec%97%90%ec%84%9c-git-%eb%b8%8c%eb%9e%9c%ec%b9%98%ea%b0%80-%eb%b3%b4%ec%9d%b4%eb%8a%94-%ed%94%84%eb%a1%ac%ed%94%84%ed%8a%b8-%ec%84%a4%ec%a0%95.html
+```
