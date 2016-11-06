@@ -22,10 +22,12 @@ ruby -v
 ## Install Jekyll and Bundle
 
 ```bash
+gem update
 gem install jekyll
 gem install bundle
 bundle install
 ```
+
 ## Create and serve site
 
 ```bash
@@ -44,4 +46,12 @@ jekyll-import를 설치하는 과정에서 nokogiri 설치 실패했다. [Stack 
 xcode-select --install
 gem install nokogiri
 gem install jekyll-import
+```
+
+Wordpress에서 import 하려면 sequel, mysql2, unidecode가 필요하다.
+
+```bash
+gem install sequel
+gem install mysql2
+gem install unidecode
 ```
