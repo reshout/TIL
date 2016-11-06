@@ -26,10 +26,22 @@ gem install jekyll
 gem install bundle
 bundle install
 ```
-## Create and Serve Site
+## Create and serve site
 
 ```bash
 jekyll new my-awesome-site
 cd my-awesome-site
 jekyll serve
+```
+
+## Import posts from Wordpress
+
+http://import.jekyllrb.com/docs/wordpress/
+
+jekyll-import를 설치하는 과정에서 nokogiri 설치 실패했다. [Stack Overflow](http://stackoverflow.com/questions/40038953/installing-nokogiri-on-mac-os-sierra-10-12)를 참조하여, 아래와 같이 nokogiri 및 jekyll-import 설치에 성공했다.
+
+```bash
+xcode-select --install
+gem install nokogiri
+gem install jekyll-import
 ```
