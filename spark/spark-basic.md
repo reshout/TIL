@@ -11,6 +11,7 @@ IPYTHON=1 ./bin/pyspart
 ```
 
 ### Python Example
+
 sc = Main entry point for Spark functionality
 
 ```python
