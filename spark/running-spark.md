@@ -58,3 +58,42 @@ IPYTHON=1 ./bin/pyspark
 >>> lines.first()
 u'# Apache Spark'
 ```
+
+### 스파크의 핵심 개념
+
+![Spkart Components](images/spark-components.png)
+
+- 모든 스파크 애플리케이션은 드라이버 프로그램을 포함
+- 드라이버 프로그램은 RDD를 정의하고 그 RDD에 연산 작업을 수행한다.
+- 드라이버 프로그램들은 `SparkConext` 객체를 통해 스파크에 접속
+- 대화형 셸에서는 `SparkContext` 객체는 자동으로 `sc` 변수에 만들어진다.
+- 클러스터에서 실행했다면 작업 노드들이 작업 연산을 나누어 처리
+
+많은 스파크 API 들은 클러스터에서 각종 연산 작업을 수행하기 위해 원하는 함수를 인자로 보내는 식으로 동작한다.
+
+```python
+>>> lines = sc.textFile("../README.md")
+>>> pythonLines = lines.filter(lambda line: "Python" in line)
+>>> pythonLines.first()
+```
+
+### 단독 애플리케이션
+
+파이썬에서는 `bin/spark-submit`을 이용해 파이썬 스크립트를 실행할 수 있다. `spark-submit`은 스파크가 내장한 파이썬 API가 동작할 수 있는 환경을 설정한다.
+
+```bash
+bin/spark-submit my_script.py
+```
+
+셸을 사용하는 것과 다르게 `SparkContext` 객체를 직접 초기화해 주어야 한다.
+
+```python
+from pyspark import SparkConf, SparkContext
+
+conf = SparkConf().setMaster("local").setAppName("My App")
+sc = SparkContext(conf=conf)
+```
+
+`SparkConf`를 생성할 때, 클래스터 URL과 애플리케이션 이름을 전달할 수 있다.
+
+스파크를 셧다운하려면 `SparkContext`의 `stop()` 메서드를 호출하거나 그냥 애플리케이션을 끝내면 된다.
