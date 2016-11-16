@@ -114,6 +114,7 @@ sc = SparkContext(conf=conf)
 - Lazy evaluation 방식으로 RDD를 정의한 시점이 아니라 처음으로 액션을 사용하는 시점에 필요한 데이터만 메모리로 가져와 연산
 - 액션을 실행할 때마다 매번 새로 연산
 - 여러 액션에서 RDD를 재사용 하려면 `persiste()` 사용하여 결과 유지 요청
+
 ```python
 pythonLines.persist()
 pythonLines.count()
@@ -143,10 +144,35 @@ pythonLines.first()
 RDD를 만드는 두 가지 방법
 
 - 외부에서 데이터세트 로드 (5장에서 자세히 다룬다)
+- 드라이버 프로그램에서 데이터 집합을 병렬화
+
 ```python
+# 외부에서 데이터 세트 로드
 lines = sc.textFile("/path/to/README.md")
 ```
-- 드라이버 프로그램에서 데이터 집합을 병렬화
+
 ```python
+# 드라이버 프로그램에서 데이터 집합을 병렬화
 lines = sc.parallelize(["pandas", "i like pandas"])
 ```
+
+### RDD의 연산
+
+**스파크는 트랜스포메이션과 액션을 매우 다르게 취급하므로 자신이 실행하는 연산의 타입에 대한 이해는 매우 중요하다.**
+
+#### 트랜스포메이션
+
+- 새로운 RDD를 만들어 돌려주는 RDD의 연산 방식
+- 실제로 액션을 사용하는 늦은 시점에 계산된다.
+- 트랜스포메이션 연산은 이미 존재하는 RDD를 변경하지 않고 완전히 새로운 RDD에 대한 포인터를 반환한다.
+
+```python
+inputRDD = sc.textFile("log.txt")
+errorsRDD = inputRDD.filter(lambda x: "error" in x)
+warningRDD = inputRDD.filter(lambda x: "warning" in x)
+badLinesRDD = errorsRDD.union(warningRDD)
+```
+
+![RDD lineage graph](images/RDD-lineage-graph.png)
+
+스파크는 RDD lineage graph라 불리는 관계 그래프를 갖고 있어, RDD를 재연산하거나 저장된 RDD가 유실될 경우 복구를 하는 등의 경우에 활용한다.
