@@ -114,7 +114,6 @@ sc = SparkContext(conf=conf)
 - Lazy evaluation 방식으로 RDD를 정의한 시점이 아니라 처음으로 액션을 사용하는 시점에 필요한 데이터만 메모리로 가져와 연산
 - 액션을 실행할 때마다 매번 새로 연산
 - 여러 액션에서 RDD를 재사용 하려면 `persiste()` 사용하여 결과 유지 요청
-
 ```python
 pythonLines.persist()
 pythonLines.count()
@@ -138,3 +137,16 @@ pythonLines.first()
 1. `filter()`와 같은 트랜스포메이션을 써서 새로운 RDD 정의
 1. 재사용을 위한 중간 단계의 RDD를 보존하기 위해 `persist()` 요청
 1. 병렬 연산을 수행하기 위해 `count()`, `first()`와 같은 액션을 시작
+
+### RDD 생성하기
+
+RDD를 만드는 두 가지 방법
+
+- 외부에서 데이터세트 로드 (5장에서 자세히 다룬다)
+```python
+lines = sc.textFile("/path/to/README.md")
+```
+- 드라이버 프로그램에서 데이터 집합을 병렬화
+```python
+lines = sc.parallelize(["pandas", "i like pandas"])
+```
