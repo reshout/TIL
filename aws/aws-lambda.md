@@ -56,6 +56,8 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-introduction-function.
 
 ### Building Lambda Functions
 
+https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-app.html
+
 ## Questions
 
 - 람다 실행 중 Configuration을 변경할 수 있는 API 존재하나?
