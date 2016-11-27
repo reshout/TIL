@@ -72,7 +72,7 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-app.html
     수 있다.
   - Node.js의 경우 Visual Studio를, Java의 경우 Eclipse를 사용할 수 있다.
 - 언어와 상관없는 공통적인 패턴
-  - How you write the handler method of your Lambda function? 
+  - How you write the handler method of your Lambda function?
   - How you pass events to the handler?
   - What statements you can use in your code to generate logs in CloudWatch Logs?
   - How to interact with AWS Lambda runtime and obtain information such as the time remaining before timeout?
@@ -99,7 +99,22 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-app.html
 
 - Amazon CloudWatch에 의해 자동으로 모니터링(metric 제공) 되며, 로그가 기록됨
 
-## Getting Started
+## Programming Model
+
+https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/programming-model-v2.html
+
+- **Handler** – 람다 함수 생성할 때 지정하는 시작 함수를 의미. `파일명.함수명`. Event data가 첫 번째 파라미터로 전달된다.
+- **Context** – 두 번째 파라미터로 전달되는 context object를 통해 람다 실행 환경과 커뮤니케이션 가능. Timeout을 읽을 수 있다. Node.js의 경우 람다의 끝을 알리는
+  callback을 세 번째 파라미터로 받는다.
+- **Logging** – 언어마다 다른 statement를 통해 로그를 남기면 CloudWatch에 기록된다.
+- **Exception** – 람다 함수는 결과를 AWS Lambda에 반환해야 한다. 요청에 대한 처리를 성공적으로 끝내거나 에러를 통지하는 다양한 방법이 있다. 동기로 호출한 경우
+  AWS Lambda는 결과를 client에게 전달한다.
+
+### Note
+
+### Programming Model for Authoring Lambda Functions in Python
+
+https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/python-programming-model.html
 
 ## Use Cases
 
@@ -121,4 +136,3 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-app.html
 1. Realtime Stream Processing
   - [Diagram](https://s3.amazonaws.com/awslambda-reference-architectures/stream-processing/lambda-refarch-streamprocessing.pdf)
   - [Sample Code](https://github.com/awslabs/lambda-refarch-streamprocessing)
-
