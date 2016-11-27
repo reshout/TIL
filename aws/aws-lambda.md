@@ -58,6 +58,51 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-introduction-function.
 
 https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-app.html
 
+람다 기반 애플리케이션의 라이프사이클
+
+1. Authoring code for your Lambda function
+1. Uploading code and creating Lambda functions
+1. Monitoring and troubleshooting
+
+#### Authoring Code for Your Lambda Function
+
+- 지원 언어는 [Lambda Execution Environment and Available Libraries](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/current-supported-versions.html)를 참고
+- AWS Lambda console, Eclipse, Visual Studio 등 다양한 도구를 사용할 수 있지만 사용할 프로그래밍 언어와 라이브러리에 따라 다를 수 있다.
+  - Python을 사용하는 경우, 컴파일이 필요 없고 외부 라이브러리를 사용하지 않으며 소스코드가 하나의 파일로 구성된 경우에만 AWS Lambda console에서 코드를 작성할
+    수 있다.
+  - Node.js의 경우 Visual Studio를, Java의 경우 Eclipse를 사용할 수 있다.
+- 언어와 상관없는 공통적인 패턴
+  - How you write the handler method of your Lambda function? 
+  - How you pass events to the handler?
+  - What statements you can use in your code to generate logs in CloudWatch Logs?
+  - How to interact with AWS Lambda runtime and obtain information such as the time remaining before timeout?
+  - How to handle exceptions?
+- 언어마다 다른 내용은 [Programming Model](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/programming-model-v2.html) 참조
+
+#### Deploying Code and Creating a Lambda Function
+
+1. Creating a Deployment Package – Organizing Code and Dependencies
+  - 언어마다 deployment package 생성 방법이 다르다.
+  - Python, Node.js의 경우 Jenkins 플러그인 사용 가능
+  - Java의 경우 Maven 플러그인 사용 가능
+  - 자세한 내용은 [Creating a Deployment Package](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/deployment-package-v2.html) 참조
+  - Console을 이용한 경우 deployment package를 생성하고 업로드까지 해준다.
+1. Uploading a Deployment Package – Creating a Lambda Function
+  - [CreateFunction](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/API_CreateFunction.html)으로 람다 함수 생성
+  - AWS Lambda console, AWS CLI, AWS SDKs 모두 내부적으로 `CreateFunction`을 사용
+  - 람다를 생성할 때 deployment package와 configuration information을 제공
+1. Testing a Lambda Function
+  - Sample event data를 사용해 람다 함수 테스트 가능
+  - Console을 이용하거나 CLI에서 `Invoke` 메서드 호출
+
+#### Monitoring and Troubleshooting
+
+- Amazon CloudWatch에 의해 자동으로 모니터링(metric 제공) 되며, 로그가 기록됨
+
+## Getting Started
+
+## Use Cases
+
 ## Questions
 
 - 람다 실행 중 Configuration을 변경할 수 있는 API 존재하나?
@@ -68,9 +113,12 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-app.html
 
 1. [AWS Lambda](https://aws.amazon.com/ko/lambda/)
 1. [시작 안내서](http://docs.aws.amazon.com/ko_kr/lambda/latest/dg/welcome.html)
+1. [Lambda Execution Environment and Available Libraries](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/current-supported-versions.html)
+1. [Programming Model](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/programming-model-v2.html)
 1. Realtime File Processing
   - [Diagram](https://s3.amazonaws.com/awslambda-reference-architectures/file-processing/lambda-refarch-fileprocessing.pdf)
   - [Sample Code](https://github.com/awslabs/lambda-refarch-fileprocessing)
 1. Realtime Stream Processing
   - [Diagram](https://s3.amazonaws.com/awslambda-reference-architectures/stream-processing/lambda-refarch-streamprocessing.pdf)
   - [Sample Code](https://github.com/awslabs/lambda-refarch-streamprocessing)
+
