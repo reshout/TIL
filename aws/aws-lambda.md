@@ -159,6 +159,35 @@ def get_my_log_stream(event, context):
 
 #### Logging (Python)
 
+Logging statement는 log를 CloudWatch에 기록하는데 console에서도 확인 가능하다.
+
+다음 Python statements는 로그를 생성
+
+- `print`
+- `logging.Logger.info`
+- `logging.Logger.error`
+
+`logging.*` 함수는 time stamp, log level을 함께 기록
+
+```python
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+def my_logging_handler(event, context):
+  logger.info('got event{}'.format(event))
+  logger.error('something went wrong')
+  return 'Hello World!'
+```
+
+```python
+from __future__ import print_function
+def my_other_logging_handler(event, context):
+  print('this will also show up in cloud watch')
+  return 'Hello World!'
+```
+
+람다 함수를 programtically 호출(`Invoke` operation)할 때 `LogType` 파라미터를 추가해 마지막 4 KB의 로그를 요청할 수 있다. 응답 헤더 `x-amz-log-results`에 로그가 있다.
+
 #### Exceptions (Python)
 
 ## Use Cases
@@ -167,7 +196,6 @@ def get_my_log_stream(event, context):
 
 - 람다 실행 중 Configuration을 변경할 수 있는 API 존재하나?
 - Timeout 전에 람다 실행 끝나도 비용은 청구되고 컨테이너는 활성화 되어 있나?
-- IAM role의 의미와 역할은?
 
 ## References
 
