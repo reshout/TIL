@@ -112,9 +112,54 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/programming-model-v2.html
 
 ### Note
 
+- 람다 함수 코드는 stateless style로 작성되어야 하고, computer infrastructure와 무관하게 작성되어야 한다.
+- Persistent state는 S3, DyanmoDB 또는 다른 클라우드 저장소에 저장되어야 한다.
+
 ### Programming Model for Authoring Lambda Functions in Python
 
-https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/python-programming-model.html
+#### Lambda Function Handler (Python)
+
+https://docs.aws.amazon.com/lambda/latest/dg/python-programming-model-handler-types.html
+
+```python
+def handler_name(event, context):
+  ...
+  return some_value
+```
+
+- `event` – 주로 `dict` 타입. `list`, `str`, `int`, `flaot`, `NoneType` 타입이 될 수 있다.
+- `context` – `LambdaContext` 타입. Runtime information을 제공한다.
+- `RequestResponse` invocation type으로 호출된 경우, 리턴 값은 client에게 전달된다. (HTTP 응답인 경우 JSON으로 serialized)
+- `Event` invocation type으로 호출된 경우, 리턴 값은 무시된다.
+
+#### The Context Object (Python)
+
+https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
+
+Context object로부터 얻을 수 있는 정보
+
+- Timeout이 얼마나 남았는지
+- CloudWatch log group, log stream
+- AWS request ID (for AWS support)
+- AWS Mobile SDK로 호출된 경우 mobile application에 대한 정보
+
+```python
+from __future__ import print_function
+
+import time
+def get_my_log_stream(event, context):       
+  print("Log stream name:", context.log_stream_name)
+  print("Log group name:",  context.log_group_name)
+  print("Request ID:",context.aws_request_id)
+  print("Mem. limits(MB):", context.memory_limit_in_mb)
+  # Code will execute quickly, so we add a 1 second intentional delay so you can see that in time remaining value.
+  time.sleep(1) 
+  print("Time remaining (MS):", context.get_remaining_time_in_millis())
+```
+
+#### Logging (Python)
+
+#### Exceptions (Python)
 
 ## Use Cases
 
