@@ -190,6 +190,34 @@ def my_other_logging_handler(event, context):
 
 #### Exceptions (Python)
 
+아래와 같이 Exception을 raise하면,
+
+```python
+def always_failed_handler(event, context):
+  raise Exception('I failed!')
+```
+
+Invocation type이 `RequestResponse`인 경우 아래와 같이 JSON 형식으로 반환된다.
+
+```python
+{
+  "errorMessage": "I failed!",
+  "stackTrace": [
+    [
+      "/var/task/lambda_function.py",
+      3,
+      "my_always_fails_handler",
+      "raise Exception('I failed!')"
+    ]
+  ],
+  "errorType": "Exception"
+}
+```
+
+Invocation type이 `Event`인 경우 error information이 CloudWatch에 기록된다.
+
+**Event source(e.g. Kinesis)에 따라 람다 함수가 실패한 경우 retry를 하기도 한다.**
+
 ## Use Cases
 
 ## Questions
