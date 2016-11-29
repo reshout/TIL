@@ -218,6 +218,24 @@ Invocation type이 `Event`인 경우 error information이 CloudWatch에 기록�
 
 **Event source(e.g. Kinesis)에 따라 람다 함수가 실패한 경우 retry를 하기도 한다.**
 
+## Creating a Deployment Package
+
+### Creating a Deployment Package (Python)
+
+https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html
+
+- **Simple scenario** – AWS SDK 라이브러리(Boto 3)만 사용하는 경우, console의 inline editor에서 코드 작성할 수 있다. 코드를 저장하면 console에서 deployment package 생성해 업로드한다.
+- **Advanced scenario** – 외부 라이브러리를 사용하거나, CLI를 사용하기 위해서는 deployment package를 직접 생성하고, CLI나 console을 이용해 업로드해야 한다. (Lambda와 같은 region에 있는 S3 bucket에 업로드하고, bucket name과 boject key name을 참조하게 하는 방법도 있다.)
+
+Deployment package 생성 방법은 아래와 같다.
+
+1. 프로젝트 디렉토리 생성 `project-dir`
+1. 프로젝트 디렉토리에 모든 소스파일(.py) 저장
+1. pip를 이용해 필요한 라이브러리를 프로젝트 디렉토리에 설치 `pip install module-name -t /path/to/project-dir` 
+1. `project-dir`의 content를 zip으로 압축해서 deployment package 생성
+
+**Homebrew을 통해 Python을 설치한 경우, Virtualenv 환경에서 deployment package를 생성해야 한다.** (c.f. [Create Deployment Package Using a Python Environment Created with Virtualenv](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html#deployment-pkg-for-virtualenv))
+
 ## Use Cases
 
 ## Questions
