@@ -236,8 +236,6 @@ Deployment package 생성 방법은 아래와 같다.
 
 **Homebrew을 통해 Python을 설치한 경우, Virtualenv 환경에서 deployment package를 생성해야 한다.** (c.f. [Create Deployment Package Using a Python Environment Created with Virtualenv](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html#deployment-pkg-for-virtualenv))
 
-## Use Cases
-
 ## Questions
 
 - 람다 실행 중 Configuration을 변경할 수 있는 API 존재하나?
