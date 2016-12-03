@@ -93,12 +93,12 @@ $ aws lambda list-functions
 ```
 
 ```
-$ aws lambda invoke \
-> --invocation-type Event \
-> --function-name LambdaFunctionOverHttps \
-> --region us-east-1 \
-> --payload file://input.txt \
-> outputfile.txt
+aws lambda invoke \
+--invocation-type Event \
+--function-name LambdaFunctionOverHttps \
+--region us-east-1 \
+--payload file://input.txt \
+outputfile.txt
 {
     "StatusCode": 202
 }
@@ -107,8 +107,8 @@ $ aws lambda invoke \
 ### API Gateway
 
 ```
-$ aws apigateway create-rest-api \
-> --name DynamoDBOperations
+aws apigateway create-rest-api \
+--name DynamoDBOperations
 {
     "name": "DynamoDBOperations",
     "id": "gkxnl9yril",
@@ -117,8 +117,8 @@ $ aws apigateway create-rest-api \
 ```
 
 ```
-$ aws apigateway get-resources \
-> --rest-api-id gkxnl9yril
+aws apigateway get-resources \
+--rest-api-id gkxnl9yril
 {
     "items": [
         {
@@ -130,10 +130,10 @@ $ aws apigateway get-resources \
 ```
 
 ```
-$ aws apigateway create-resource \
-> --rest-api-id gkxnl9yril \
-> --parent-id 95qkesnz4k \
-> --path-part DynamoDBManager
+aws apigateway create-resource \
+--rest-api-id gkxnl9yril \
+--parent-id 95qkesnz4k \
+--path-part DynamoDBManager
 {
     "path": "/DynamoDBManager",
     "pathPart": "DynamoDBManager",
@@ -143,11 +143,11 @@ $ aws apigateway create-resource \
 ```
 
 ```
-$ aws apigateway put-method \
-> --rest-api-id gkxnl9yril \
-> --resource-id umhk73 \
-> --http-method POST \
-> --authorization-type NONE
+aws apigateway put-method \
+--rest-api-id gkxnl9yril \
+--resource-id umhk73 \
+--http-method POST \
+--authorization-type NONE
 {
     "apiKeyRequired": false,
     "httpMethod": "POST",
@@ -156,30 +156,30 @@ $ aws apigateway put-method \
 ```
 
 ```
-$ aws apigateway put-integration \
-> --rest-api-id gkxnl9yril \
-> --resource-id umhk73 \
-> --http-method POST \
-> --type AWS \
-> --integration-http-method POST \
-> --uri arn:aws:apigateway:es-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:067884960258:function:LambdaFunctionOverHttps/invocations
+aws apigateway put-integration \
+--rest-api-id gkxnl9yril \
+--resource-id umhk73 \
+--http-method POST \
+--type AWS \
+--integration-http-method POST \
+--uri arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:067884960258:function:LambdaFunctionOverHttps/invocations
 {
     "httpMethod": "POST",
     "passthroughBehavior": "WHEN_NO_MATCH",
     "cacheKeyParameters": [],
     "type": "AWS",
-    "uri": "arn:aws:apigateway:es-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:067884960258:function:LambdaFunctionOverHttps/invocations",
+    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:067884960258:function:LambdaFunctionOverHttps/invocations",
     "cacheNamespace": "umhk73"
 }
 ```
 
 ```
-$ aws apigateway put-method-response \
-> --rest-api-id gkxnl9yril \
-> --resource-id umhk73 \
-> --http-method POST \
-> --status-code 200 \
-> --response-models "{\"application/json\": \"Empty\"}"
+aws apigateway put-method-response \
+--rest-api-id gkxnl9yril \
+--resource-id umhk73 \
+--http-method POST \
+--status-code 200 \
+--response-models "{\"application/json\": \"Empty\"}"
 {
     "responseModels": {
         "application/json": "Empty"
@@ -189,12 +189,12 @@ $ aws apigateway put-method-response \
 ```
 
 ```
-$ aws apigateway put-integration-response \
-> --rest-api-id gkxnl9yril \
-> --resource-id umhk73 \
-> --http-method POST \
-> --status-code 200 \
-> --response-templates "{\"application/json\": \"\"}"
+aws apigateway put-integration-response \
+--rest-api-id gkxnl9yril \
+--resource-id umhk73 \
+--http-method POST \
+--status-code 200 \
+--response-templates "{\"application/json\": \"\"}"
 {
     "statusCode": "200",
     "responseTemplates": {
@@ -204,9 +204,9 @@ $ aws apigateway put-integration-response \
 ```
 
 ```
-$ aws apigateway create-deployment \
-> --rest-api-id gkxnl9yril \
-> --stage-name prod
+aws apigateway create-deployment \
+--rest-api-id gkxnl9yril \
+--stage-name prod
 {
     "id": "j89rck",
     "createdDate": 1480636899
@@ -214,25 +214,44 @@ $ aws apigateway create-deployment \
 ```
 
 ```
-$ aws lambda add-permission \
-> --function-name LambdaFunctionOverHttps \
-> --statement-id apigateway-test-2 \
-> --action lambda:InvokeFunction \
-> --principal apigateway.amazonaws.com \
-> --source-arn "arn:aws:execute-api:us-east-1:067884960258:gkxnl9yril/*/POST/DynamoDBManager"
+aws lambda add-permission \
+--function-name LambdaFunctionOverHttps \
+--statement-id apigateway-test-2 \
+--action lambda:InvokeFunction \
+--principal apigateway.amazonaws.com \
+--source-arn "arn:aws:execute-api:us-east-1:067884960258:gkxnl9yril/*/POST/DynamoDBManager"
 {
     "Statement": "{\"Sid\":\"apigateway-test-2\",\"Resource\":\"arn:aws:lambda:us-east-1:067884960258:function:LambdaFunctionOverHttps\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"apigateway.amazonaws.com\"},\"Action\":[\"lambda:InvokeFunction\"],\"Condition\":{\"ArnLike\":{\"AWS:SourceArn\":\"arn:aws:execute-api:us-east-1:067884960258:gkxnl9yril/*/POST/DynamoDBManager\"}}}"
 }
 ```
 
 ```
-$ aws lambda add-permission \
-> --function-name LambdaFunctionOverHttps \
-> --statement-id apigateway-prod-2 \
-> --action lambda:InvokeFunction \
-> --principal apigateway.amazonaws.com \
-> --source-arn "arn:aws:execute-api:us-east-1:067884960258:gkxnl9yril/prod/POST/DynamoDBManager"
+aws lambda add-permission \
+--function-name LambdaFunctionOverHttps \
+--statement-id apigateway-prod-2 \
+--action lambda:InvokeFunction \
+--principal apigateway.amazonaws.com \
+--source-arn "arn:aws:execute-api:us-east-1:067884960258:gkxnl9yril/prod/POST/DynamoDBManager"
 {
     "Statement": "{\"Sid\":\"apigateway-prod-2\",\"Resource\":\"arn:aws:lambda:us-east-1:067884960258:function:LambdaFunctionOverHttps\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"apigateway.amazonaws.com\"},\"Action\":[\"lambda:InvokeFunction\"],\"Condition\":{\"ArnLike\":{\"AWS:SourceArn\":\"arn:aws:execute-api:us-east-1:067884960258:gkxnl9yril/prod/POST/DynamoDBManager\"}}}"
+}
+```
+
+```
+aws apigateway test-invoke-method \
+> --rest-api-id gkxnl9yril \
+> --resource-id umhk73 \
+> --http-method POST \
+> --path-with-query-string "" \
+> --body "{\"operation\":\"create\",\"tableName\":\"LambdaTable\",\"payload\":{\"Item\":{\"Id\":\"7\",\"name\":\"Kim\"}}}"
+{
+    "status": 200,
+    "body": "{\"ResponseMetadata\": {\"RetryAttempts\": 0, \"HTTPStatusCode\": 200, \"RequestId\": \"DCFE83EB1EJAV8FFH5UIMD5CMBVV4KQNSO5AEMVJF66Q9ASUAAJG\", \"HTTPHeaders\": {\"x-amzn-requestid\": \"DCFE83EB1EJAV8FFH5UIMD5CMBVV4KQNSO5AEMVJF66Q9ASUAAJG\", \"date\": \"Sat, 03 Dec 2016 01:39:37 GMT\", \"content-length\": \"2\", \"content-type\": \"application/x-amz-json-1.0\", \"x-amz-crc32\": \"2745614147\"}}}",
+    "log": "Execution log for request test-request\nSat Dec 03 01:39:37 UTC 2016 : Starting execution for request: test-invoke-request\nSat Dec 03 01:39:37 UTC 2016 : HTTP Method: POST, Resource Path: /DynamoDBManager\nSat Dec 03 01:39:37 UTC 2016 : Method request path: {}\nSat Dec 03 01:39:37 UTC 2016 : Method request query string: {}\nSat Dec 03 01:39:37 UTC 2016 : Method request headers: {}\nSat Dec 03 01:39:37 UTC 2016 : Method request body before transformations: {\"operation\":\"create\",\"tableName\":\"LambdaTable\",\"payload\":{\"Item\":{\"Id\":\"7\",\"name\":\"Kim\"}}}\nSat Dec 03 01:39:37 UTC 2016 : Endpoint request URI: https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:067884960258:function:LambdaFunctionOverHttps/invocations\nSat Dec 03 01:39:37 UTC 2016 : Endpoint request headers: {x-amzn-lambda-integration-tag=test-request, Authorization=****************************************************************************************************************************************************************************************************************************************************************************************************************************************27f552, X-Amz-Date=20161203T013937Z, x-amzn-apigateway-api-id=gkxnl9yril, X-Amz-Source-Arn=arn:aws:execute-api:us-east-1:067884960258:gkxnl9yril/null/POST/DynamoDBManager, Accept=application/json, User-Agent=AmazonAPIGateway_gkxnl9yril, Host=lambda.us-east-1.amazonaws.com, X-Amz-Content-Sha256=331319bd9869a223d25dfd1ca5ffe6c2213ea63c74983f109be0d2d0d0f18f5e, X-Amzn-Trace-Id=Root=1-58422259-97da760e4d0f35d07106ebf9, Content-Type=application/json}\nSat Dec 03 01:39:37 UTC 2016 : Endpoint request body after transformations: {\"operation\":\"create\",\"tableName\":\"LambdaTable\",\"payload\":{\"Item\":{\"Id\":\"7\",\"name\":\"Kim\"}}}\nSat Dec 03 01:39:37 UTC 2016 : Endpoint response body before transformations: {\"ResponseMetadata\": {\"RetryAttempts\": 0, \"HTTPStatusCode\": 200, \"RequestId\": \"DCFE83EB1EJAV8FFH5UIMD5CMBVV4KQNSO5AEMVJF66Q9ASUAAJG\", \"HTTPHeaders\": {\"x-amzn-requestid\": \"DCFE83EB1EJAV8FFH5UIMD5CMBVV4KQNSO5AEMVJF66Q9ASUAAJG\", \"date\": \"Sat, 03 Dec 2016 01:39:37 GMT\", \"content-length\": \"2\", \"content-type\": \"application/x-amz-json-1.0\", \"x-amz-crc32\": \"2745614147\"}}}\nSat Dec 03 01:39:37 UTC 2016 : Endpoint response headers: {x-amzn-Remapped-Content-Length=0, x-amzn-RequestId=59af801b-b8f9-11e6-b200-7d58a248a566, Connection=keep-alive, Content-Length=366, Date=Sat, 03 Dec 2016 01:39:37 GMT, Content-Type=application/json}\nSat Dec 03 01:39:37 UTC 2016 : Method response body after transformations: {\"ResponseMetadata\": {\"RetryAttempts\": 0, \"HTTPStatusCode\": 200, \"RequestId\": \"DCFE83EB1EJAV8FFH5UIMD5CMBVV4KQNSO5AEMVJF66Q9ASUAAJG\", \"HTTPHeaders\": {\"x-amzn-requestid\": \"DCFE83EB1EJAV8FFH5UIMD5CMBVV4KQNSO5AEMVJF66Q9ASUAAJG\", \"date\": \"Sat, 03 Dec 2016 01:39:37 GMT\", \"content-length\": \"2\", \"content-type\": \"application/x-amz-json-1.0\", \"x-amz-crc32\": \"2745614147\"}}}\nSat Dec 03 01:39:37 UTC 2016 : Method response headers: {X-Amzn-Trace-Id=Root=1-58422259-97da760e4d0f35d07106ebf9, Content-Type=application/json}\nSat Dec 03 01:39:37 UTC 2016 : Successfully completed execution\nSat Dec 03 01:39:37 UTC 2016 : Method completed with status: 200\n",
+    "latency": 279,
+    "headers": {
+        "X-Amzn-Trace-Id": "Root=1-58422259-97da760e4d0f35d07106ebf9",
+        "Content-Type": "application/json"
+    }
 }
 ```
