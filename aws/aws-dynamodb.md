@@ -37,7 +37,6 @@ http://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/gettingstartedguide/Getti
   - [Query and Scan Operations in DynamoDB](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html)
   - [Improving Data Access with Secondary Indexes in DynamoDB](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SecondaryIndexes.html)
   - [Best Practices for DynamoDB](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/BestPractices.html)
-
 - [Performing Conditional Writes with Condition Expressions](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html)
 - [Reserved Words in DynamoDB](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html)
 
