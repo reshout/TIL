@@ -27,6 +27,7 @@ http://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/gettingstartedguide/Getti
 - 정렬 키도 정의한 경우 정렬 키 값은 다르고 파티션 키 값은 다른 항목이 여러개 존재할 수 있다.
 - 쿼리할 때 파티션 키, 정렬 키만 사용할 수 있다.
 - 다른 키로도 쿼리하고 싶다면 보조 인덱스를 생성해야 한다.
+- **`UpdateItem`은 항목이 존재하지 않는 경우 추가한다. 항목이 존재하는 경우 변경한다.**
 
 ## References
 
