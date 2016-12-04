@@ -18,7 +18,7 @@ http://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/gettingstartedguide/Welco
 
 http://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/gettingstartedguide/GettingStarted.JsShell.html
 
-- 기본적으로 PutItem은 무조건 overwrite 한다. 조건이 성립할 때만 overwrite하게 하려면 `ConditionExpression` 파라미터를 적용해야 한다.
+- 기본적으로 `PutItem`은 무조건 overwrite 한다. 조건이 성립할 때만 overwrite하게 하려면 `ConditionExpression` 파라미터를 적용해야 한다.
 - `ConditionExpression`으로 조건부 삭제할 수 있지만 키 값에 의해 선택된 하나의 항목에 대해 삭제 여부를 결정하기 위한 것이다.
 
 ## Note
