@@ -83,3 +83,60 @@ print 'Version', mymodule.__version__
 ## 패키지
 
 모듈은 패키지에 포함됨. 파이썬 패키지는 단순한 폴더지만 이 폴더가 파이썬 모듈을 담고 있다는 것을 알려주는 역할을 하는 `init.py`를 포함. 패키지는 계층적으로 모듈을 관리할 수 있게 편의상 구성하는 것.
+
+아래와 같이 패키지가 구성되어 있을 때,
+
+```
+game/
+    __init__.py
+    sound/
+        __init__.py
+        echo.py
+        wav.py
+    graphic/
+        __init__.py
+        screen.py
+        render.py
+    play/
+        __init__.py
+        run.py
+        test.py
+```
+
+```python
+# echo.py
+def echo_test():
+    print ("echo")
+```
+
+```python
+# render.py
+def render_test():
+    print ("render")
+```
+
+`echo_test()`를 호출하는 다양한 방법
+
+```python
+>>> import game.sound.echo
+>>> game.sound.echo.echo_test()
+echo
+```
+
+```python
+>>> from game.sound import echo
+>>> echo.echo_test()
+echo
+```
+
+```python
+>>> from game.sound.echo import echo_test
+>>> echo_test()
+echo
+```
+
+**도트 연산자(`.`)를 사용해서 `import a.b.c`처럼 `import`할 때 가장 마지막 항목인 `c`는 반드시 모듈 또는 패키지여야만 한다.**
+
+## References
+
+- [점프 투 파이썬 - 패키지](https://wikidocs.net/1418)
