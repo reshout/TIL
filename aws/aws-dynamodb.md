@@ -21,6 +21,28 @@ http://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/gettingstartedguide/Getti
 - 기본적으로 `PutItem`은 무조건 overwrite 한다. 조건이 성립할 때만 overwrite하게 하려면 `ConditionExpression` 파라미터를 적용해야 한다.
 - `ConditionExpression`으로 조건부 삭제할 수 있지만 키 값에 의해 선택된 하나의 항목에 대해 삭제 여부를 결정하기 위한 것이다.
 
+### Python과 DynamoDB
+
+http://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/gettingstartedguide/GettingStarted.Python.html
+
+#### 준비
+
+1. Python 2.6 이상 설치
+1. `pip install boto3`
+1. AWS CLI에 `aws_access_key_id`, `aws_secret_access_key`, `region` 설정
+
+```python
+import boto3
+
+s3 = boto3.resource('s3')
+for bucket in s3.buckets.all():
+  print(bucket.name)
+```
+
+#### References
+
+- [Boto3 Docs / User Guide / DynamoDB](http://boto3.readthedocs.io/en/latest/guide/dynamodb.html)
+
 ## Note
 
 - 파티션 키만 정의한 경우 특정 파티션 키 값을 가지는 항목은 하나만 존재할 수 있다.
