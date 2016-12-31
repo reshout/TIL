@@ -10,7 +10,7 @@
 - **필드**
     - 인스턴스 변수
     - 클래스 변수: 클래스로부터 생성된 모든 인스턴스간에 공유
-- **메서드** 
+- **메서드**
 - **속성**: 필드 + 메서드
 
 모든 클래스 멤버는 외부에 공개. 숨기고 싶다면 앞에 `__`를 붙이면 된다. 예. ``__privatevar``
@@ -75,3 +75,11 @@ for member in members:
     member.tell()
 ```
 
+클래스의 특별한 메서드들은 아래와 같다. 자세한 내용은 https://docs.python.org/2/reference/datamodel.html#special-method-names 참고.
+
+- `init(self, ...)`: 객체 생성될 때 호출됨.
+- `del(self)`: 객체가 메모리에서 제거되기 직전 호출됨.
+- `str(self)`: `print` 문이나 `str()`에 의해 호출됨.
+- `lt(self, other)`: `<` 연산자가 사용될 경우 호출됨. 모든 연산자에 해당하는 특별한 메서드들이 하나씩 따로 존재.
+- `getitem(self, key)`: `x[key]` 형태의 인덱싱 연산이 사용될 경우 호출됨.
+- `len(self)`: 내장 함수 `len()`이 사용될 경우 호출됨.
