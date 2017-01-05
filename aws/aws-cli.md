@@ -93,6 +93,12 @@ $ aws lambda list-functions
 ```
 
 ```
+$ aws lambda update-function-code \
+    --function-name AlexaSkillWhisen \
+    --zip-file fileb://lambda.zip 
+```
+
+```
 $ aws lambda invoke \
 > --invocation-type Event \
 > --function-name LambdaFunctionOverHttps \
