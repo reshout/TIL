@@ -42,7 +42,7 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-introduction-function.
 ### Compute Requirements – Lambda Function Configuration
 
 - **Compute Resources** – 메모리 크기만 설정할 수 있으며, CPU power는 메모리 크기에 비례한다.
-- **Maximum execution time** – Lambda function이 영원히 실행되지 않도록 timeout 설정해야 한다. Timeout이 끝나면 실행중인 람다 함수가 중지된다.
+- **Maximum execution time** – Lambda function이 영원히 실행되지 않도록 timeout 설정해야 한다. Timeout이 끝나면 실행중인 Lambda function가 중지된다.
 - **IAM role**
 - **Handler name** – AWS Lambda가 실행될 때 호출될 메서드 이름. event 정보와 parameter가 전달 된다.
 
@@ -51,14 +51,14 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-introduction-function.
 - 2 invocation types – Synchronous(`RequestResponse`) vs Asynchronous(`Event`)
 - Application에서 호출하거나 테스트 목적으로 CLI에서 호출할 때, invocation type을 지정할 수 있다.
 - AWS Service에 의해서 호출될 때, 서비스에 따라 invocation type은 정해져 있고 개발자가 변경할 수 없다.
-  - S3는 언제나 람다를 비동기로 호출
-  - Cognito는 언제나 람다를 동기로 호출
+  - S3는 언제나 Lambda function을 비동기로 호출
+  - Cognito는 언제나 Lambda function을 동기로 호출
 
 ### Building Lambda Functions
 
 https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-app.html
 
-람다 기반 애플리케이션의 라이프사이클
+Lambda function 기반 애플리케이션의 라이프사이클
 
 1. Authoring code for your Lambda function
 1. Uploading code and creating Lambda functions
@@ -88,11 +88,11 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-app.html
   - 자세한 내용은 [Creating a Deployment Package](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/deployment-package-v2.html) 참조
   - Console을 이용한 경우 deployment package를 생성하고 업로드까지 해준다.
 1. Uploading a Deployment Package – Creating a Lambda Function
-  - [CreateFunction](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/API_CreateFunction.html)으로 람다 함수 생성
+  - [CreateFunction](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/API_CreateFunction.html)으로 Lambda function 생성
   - AWS Lambda console, AWS CLI, AWS SDKs 모두 내부적으로 `CreateFunction`을 사용
-  - 람다를 생성할 때 deployment package와 configuration information을 제공
+  - Lambda function를 생성할 때 deployment package와 configuration information을 제공
 1. Testing a Lambda Function
-  - Sample event data를 사용해 람다 함수 테스트 가능
+  - Sample event data를 사용해 Lambda function 테스트 가능
   - Console을 이용하거나 CLI에서 `Invoke` 메서드 호출
 
 #### Monitoring and Troubleshooting
@@ -103,16 +103,16 @@ https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-app.html
 
 https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/programming-model-v2.html
 
-- **Handler** – 람다 함수 생성할 때 지정하는 시작 함수를 의미. `파일명.함수명`. Event data가 첫 번째 파라미터로 전달된다.
-- **Context** – 두 번째 파라미터로 전달되는 context object를 통해 람다 실행 환경과 커뮤니케이션 가능. Timeout을 읽을 수 있다. Node.js의 경우 람다의 끝을 알리는
+- **Handler** – Lambda function 생성할 때 지정하는 시작 함수를 의미. `파일명.함수명`. Event data가 첫 번째 파라미터로 전달된다.
+- **Context** – 두 번째 파라미터로 전달되는 context object를 통해 Lambda function 실행 환경과 커뮤니케이션 가능. Timeout을 읽을 수 있다. Node.js의 경우 Lambda function의 끝을 알리는
   callback을 세 번째 파라미터로 받는다.
 - **Logging** – 언어마다 다른 statement를 통해 로그를 남기면 CloudWatch에 기록된다.
-- **Exception** – 람다 함수는 결과를 AWS Lambda에 반환해야 한다. 요청에 대한 처리를 성공적으로 끝내거나 에러를 통지하는 다양한 방법이 있다. 동기로 호출한 경우
+- **Exception** – Lambda function는 결과를 AWS Lambda에 반환해야 한다. 요청에 대한 처리를 성공적으로 끝내거나 에러를 통지하는 다양한 방법이 있다. 동기로 호출한 경우
   AWS Lambda는 결과를 client에게 전달한다.
 
 ### Note
 
-- 람다 함수 코드는 stateless style로 작성되어야 하고, computer infrastructure와 무관하게 작성되어야 한다.
+- Lambda function 코드는 stateless style로 작성되어야 하고, computer infrastructure와 무관하게 작성되어야 한다.
 - Persistent state는 S3, DyanmoDB 또는 다른 클라우드 저장소에 저장되어야 한다.
 
 ### Programming Model for Authoring Lambda Functions in Python
@@ -186,7 +186,7 @@ def my_other_logging_handler(event, context):
   return 'Hello World!'
 ```
 
-람다 함수를 programtically 호출(`Invoke` operation)할 때 `LogType` 파라미터를 추가해 마지막 4 KB의 로그를 요청할 수 있다. 응답 헤더 `x-amz-log-results`에 로그가 있다.
+Lambda function를 programtically 호출(`Invoke` operation)할 때 `LogType` 파라미터를 추가해 마지막 4 KB의 로그를 요청할 수 있다. 응답 헤더 `x-amz-log-results`에 로그가 있다.
 
 #### Exceptions (Python)
 
@@ -216,7 +216,7 @@ Invocation type이 `RequestResponse`인 경우 아래와 같이 JSON 형식으�
 
 Invocation type이 `Event`인 경우 error information이 CloudWatch에 기록된다.
 
-**Event source(e.g. Kinesis)에 따라 람다 함수가 실패한 경우 retry를 하기도 한다.**
+**Event source(e.g. Kinesis)에 따라 Lambda function가 실패한 경우 retry를 하기도 한다.**
 
 ## Creating a Deployment Package
 
@@ -236,10 +236,34 @@ Deployment package 생성 방법은 아래와 같다.
 
 **Homebrew을 통해 Python을 설치한 경우, Virtualenv 환경에서 deployment package를 생성해야 한다.** (c.f. [Create Deployment Package Using a Python Environment Created with Virtualenv](https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html#deployment-pkg-for-virtualenv))
 
+## Use Cases
+
+### Using AWS Lambda with Amazon API Gateway (On-Demand Over HTTPS)
+
+https://docs.aws.amazon.com/ko_kr/lambda/latest/dg/with-on-demand-https-example.html
+
+Lambda function 생성 후 아래와 같은 순서로 API Gateway를 연결해, HTTPS 요청으로부터 Lambda function가 실행되도록 설정할 수 있다.
+
+1. REST API 생성
+1. REST API의 root ID 확인
+1. Root ID를 부모로하는 Resource 생성
+1. Resource에 Method(POST) 추가
+1. Method(POST)에 Lambda function 연결
+1. Method(POST)의 response type 설정
+1. Lambda function의 response type 설정
+1. REST API를 deploy (stage called prod)
+1. API Gateway에서 Lambda function을 호출할 수 있도록 permission 추가
+
+HTTPS로 호출할 수 있는 주소는 다음과 같다.
+
+```
+https://api-id.execute-api.aws-region.amazonaws.com/prod/DynamoDBManager
+```
+
 ## Questions
 
-- 람다 실행 중 Configuration을 변경할 수 있는 API 존재하나?
-- Timeout 전에 람다 실행 끝나도 비용은 청구되고 컨테이너는 활성화 되어 있나?
+- Lambda function 실행 중 Configuration을 변경할 수 있는 API 존재하나?
+- Timeout 전에 Lambda function 실행 끝나도 비용은 청구되고 컨테이너는 활성화 되어 있나?
 
 ## References
 
